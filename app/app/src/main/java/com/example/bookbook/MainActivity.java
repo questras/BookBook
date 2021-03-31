@@ -1,14 +1,13 @@
 package com.example.bookbook;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity implements NavigationHost{
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
+
+public class MainActivity extends AppCompatActivity implements NavigationHost {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

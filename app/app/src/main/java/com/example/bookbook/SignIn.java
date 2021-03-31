@@ -25,17 +25,35 @@ public class SignIn extends Fragment {
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        final TextInputLayout passwordTextInput = view.findViewById(R.id.password_text_input);
+        final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
+
+        passwordEditText.setOnKeyListener((v, i, keyEvent) -> {
+            if (isPasswordValid(passwordEditText.getText())) {
+                passwordTextInput.setError(null); //Clear the error
+            }
+            return false;
+        });
+
+        view.findViewById(R.id.sign_in_button).setOnClickListener(v -> {
+            if (!isPasswordValid(passwordEditText.getText())) {
+                passwordTextInput.setError(getString(R.string.error_password_len));
+            } else {
+                passwordTextInput.setError(null); // Clear the error
+//                    ((NavigationHost) getActivity()).navigateTo(); // Navigate to the next Fragment
+            }
+        });
+
+        view.findViewById(R.id.sign_up_button).setOnClickListener(v -> {
+            passwordTextInput.setError(null); // Clear the error
+            ((NavigationHost) getActivity()).navigateTo(new SignUp());
+        });
 
         return view;
     }
 
     private boolean isPasswordValid(@Nullable Editable text) {
         return text != null && text.length() >= 8;
-    }
-
-    private boolean isUsernameValid(@Nullable Editable text) {
-        return text != null && text.length() <= 20;
     }
 }
