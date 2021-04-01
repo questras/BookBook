@@ -11,4 +11,6 @@
     <string name="error_password_same">Passwords must be the same.</string>
     <string name="first_name_hint">first name</string>
     <string name="last_name_hint">last name</string>
+    <string name="username">Tomasz Kowalski</string>
+    <string name="score">Score: 13</string>
 </resources>
