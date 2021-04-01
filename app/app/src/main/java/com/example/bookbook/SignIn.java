@@ -37,7 +37,7 @@ public class SignIn extends Fragment {
                 passwordTextInput.setError(getString(R.string.error_password_len));
             } else {
                 passwordTextInput.setError(null);
-//                    ((NavigationHost) getActivity()).navigateTo(); // Navigate to the next Fragment
+                ((WelcomeActivity) getActivity()).switchToMain();
             }
         });
 

@@ -49,7 +49,7 @@ public class SignUp extends Fragment {
                 retypePasswordTextInput.setError(getString(R.string.error_password_same));
             } else {
                 passwordTextInput.setError(null);
-//                    ((NavigationHost) getActivity()).navigateTo(); // Navigate to the next Fragment
+                ((WelcomeActivity) getActivity()).switchToMain();
             }
         });
 
