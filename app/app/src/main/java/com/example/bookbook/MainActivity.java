@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
 
@@ -21,18 +22,18 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
                     .beginTransaction()
                     .add(R.id.fragment_container_view, new SignIn())
                     .setReorderingAllowed(true)
-                    .addToBackStack(null)
                     .commit();
         }
     }
 
     @Override
-    public void navigateTo(Fragment fragment) {
-        getSupportFragmentManager()
+    public void navigateTo(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container_view, fragment)
-                .setReorderingAllowed(true)
-                .addToBackStack(null)
-                .commit();
+                .setReorderingAllowed(true);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

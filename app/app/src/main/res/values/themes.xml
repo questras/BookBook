@@ -15,7 +15,7 @@
     </style>
 
     <!-- Welcome pages theme. -->
-    <style name="Theme.WelcomeTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.WelcomeTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
