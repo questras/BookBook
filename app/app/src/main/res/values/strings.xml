@@ -12,5 +12,12 @@
     <string name="first_name_hint">first name</string>
     <string name="last_name_hint">last name</string>
     <string name="username">Tomasz Kowalski</string>
-    <string name="score">Score: 13</string>
+    <string name="score_label">Score: </string>
+    <string name="score">13</string>
+    <string name="mail_label">Mail: </string>
+    <string name="mail">t.kowalski@gmail.com</string>
+    <string name="user_history_button">History</string>
+    <string name="user_photo_descr">User photo</string>
+    <string name="like_button">like button</string>
+    <string name="dislike_button">dislike button</string>
 </resources>
