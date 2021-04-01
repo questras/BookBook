@@ -42,8 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="@string/mail_hint"
-            android:hint="@string/mail_hint"
-            app:suffixText="@string/mail_suffix">
+            android:hint="@string/mail_hint">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mail_edit_text"
