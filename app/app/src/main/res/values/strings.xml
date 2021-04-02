@@ -14,7 +14,7 @@
     <string name="username">Tomasz Kowalski</string>
     <string name="score_label">Score: </string>
     <string name="score">13</string>
-    <string name="mail_label">Mail: </string>
+    <string name="mail_label">Mail:</string>
     <string name="mail">t.kowalski@gmail.com</string>
     <string name="user_history_button">History</string>
     <string name="user_photo_descr">User photo</string>

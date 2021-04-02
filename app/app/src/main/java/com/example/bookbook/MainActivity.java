@@ -1,14 +1,12 @@
 package com.example.bookbook;
 
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
 
