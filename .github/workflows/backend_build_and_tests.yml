@@ -49,8 +49,8 @@ jobs:
         run: pipenv install
       - name: Run migrations
         working-directory: ./backend
-        run: python manage.py migrate
+        run: pipenv run python manage.py migrate
       - name: run tests
         working-directory: ./backend
-        run: python manage.py test
+        run: pipenv run python manage.py test
 
