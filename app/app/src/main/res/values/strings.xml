@@ -20,4 +20,27 @@
     <string name="user_photo_descr">User photo</string>
     <string name="like_button">like button</string>
     <string name="dislike_button">dislike button</string>
+    <string name="offer_name">Offer name</string>
+    <string name="location">Location:\nPoland\nMazowieckie\nWarsaw\nUrocza 24/10 Street</string>
+    <string name="phone_number">Phone number:\n123456789</string>
+    <string name="description">Description:</string>
+    <string name="description_text">A very good book.</string>
+    <string name="profile_button">Book owner</string>
+    <string name="new_offer">New Offer</string>
+    <string name="add_photo">Add photo</string>
+    <string name="add_offer">Add offer</string>
+    <string name="add_location">Location:</string>
+    <string name="add_country">Country:</string>
+    <string name="add_state">State:</string>
+    <string name="add_city">City:</string>
+    <string name="add_street">Street:</string>
+    <string name="add_phone_number">Phone number:</string>
+    <string name="phone_number_ex">Example: 123456789</string>
+    <string name="add_description">Say something about your book ;) :</string>
+    <string name="description_ex">Example: A long time ago in a galaxy far, far away....</string>
+    <string name="find_book">Find your new book!</string>
+    <string name="search">Search by: book title, book\'s author, offer\'s author</string>
+    <string name="offer1">Offer 1</string>
+    <string name="offer2">Offer 2</string>
+    <string name="offer3">Offer 3</string>
 </resources>
