@@ -98,12 +98,12 @@
             android:layout_marginTop="20dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sign_up_button"
+            android:id="@+id/change_password_button"
             style="@style/ButtonStyle"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up"
+            android:text="@string/change_password"
             app:icon="@drawable/ic_add"
             app:iconGravity="start"
             app:iconTint="@color/primary_dark"
@@ -115,7 +115,7 @@
             android:layout_marginTop="20dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sign_up_button"
+            android:id="@+id/change_password_button"
             style="@style/ButtonStyle"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
