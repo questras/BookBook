@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 
     # local
     'users.apps.UsersConfig',
+    'token_auth.apps.TokenAuthConfig',
 ]
 
 MIDDLEWARE = [
