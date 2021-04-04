@@ -1,77 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background_sign"
-            tools:context=".OfferInfo">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_sign"
+    tools:context=".OfferInfo">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:paddingTop="16dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:paddingTop="16dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/find_book"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:layout_marginBottom="20sp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20sp"
+            android:text="@string/find_book"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mail_text_input"
-                style="@style/SignUpInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="@string/search"
-                android:hint="@string/search">
+            android:id="@+id/mail_text_input"
+            style="@style/SignUpInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/search"
+            android:hint="@string/search">
 
             <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/street_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:textSize="14dp"
-                    android:maxLines="1"/>
+                android:id="@+id/street_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-                style="@style/ButtonStyle"
-                android:id="@+id/offer1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:iconGravity="start"
-                app:iconTint="@color/primary_dark"
-                android:layout_gravity="start"
-                android:text="@string/offer1" />
+            android:id="@+id/offer1"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/offer1"
+            app:iconGravity="start"
+            app:iconTint="@color/primary_dark" />
 
         <com.google.android.material.button.MaterialButton
-                style="@style/ButtonStyle"
-                android:id="@+id/offer2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:iconGravity="start"
-                app:iconTint="@color/primary_dark"
-                android:layout_gravity="start"
-                android:text="@string/offer2" />
+            android:id="@+id/offer2"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/offer2"
+            app:iconGravity="start"
+            app:iconTint="@color/primary_dark" />
 
         <com.google.android.material.button.MaterialButton
-                style="@style/ButtonStyle"
-                android:id="@+id/offer3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:iconGravity="start"
-                app:iconTint="@color/primary_dark"
-                android:layout_gravity="start"
-                android:text="@string/offer3" />
-
+            android:id="@+id/offer3"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/offer3"
+            app:iconGravity="start"
+            app:iconTint="@color/primary_dark" />
 
     </LinearLayout>
 

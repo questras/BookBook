@@ -25,7 +25,7 @@
     <string name="phone_number">Phone number:\n123456789</string>
     <string name="description">Description:</string>
     <string name="description_text">A very good book.</string>
-    <string name="profile_button">Go to offer author\'s profile</string>
+    <string name="profile_button">Book owner</string>
     <string name="new_offer">New Offer</string>
     <string name="add_photo">Add photo</string>
     <string name="add_offer">Add offer</string>
