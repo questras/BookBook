@@ -43,4 +43,6 @@
     <string name="offer1">Offer 1</string>
     <string name="offer2">Offer 2</string>
     <string name="offer3">Offer 3</string>
+    <string name="status">Status:</string>
+    <string name="status_text">Available</string>
 </resources>
