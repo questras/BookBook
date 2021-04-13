@@ -29,20 +29,18 @@ public class SignRepository {
         return signRepository;
     }
 
-    public Pair<MutableLiveData<ResponseToken>, JSONObject> authenticate(String email, String pass) {
-        MutableLiveData<ResponseToken> token = new MutableLiveData<>();
-        final JSONObject[] error = {null};
+    public void authenticate(String email, String pass,
+                             MutableLiveData<Pair<ResponseToken, JSONObject>> data) {
         api.acquireToken(email, pass, device).enqueue(new Callback<ResponseToken>() {
             @Override
             public void onResponse(@NonNull Call<ResponseToken> call,
                                    @NonNull Response<ResponseToken> response) {
                 if (response.isSuccessful()) {
-                    token.setValue(response.body());
+                    data.setValue(new Pair<>(response.body(), null));
                 } else {
-                    token.setValue(null);
                     try {
                         if (response.errorBody() != null)
-                            error[0] = new JSONObject(response.errorBody().string());
+                            data.setValue(new Pair<>(null, new JSONObject(response.errorBody().string())));
                     } catch (Exception e) {
                         Log.d("Response", "Exception during response handling");
                     }
@@ -52,10 +50,10 @@ public class SignRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseToken> call,
                                   @NonNull Throwable t) {
-                token.setValue(null);
+                Log.d("Response", "Failure");
+                data.setValue(null);
             }
         });
-        return new Pair<>(token, error[0]);
     }
 
 }

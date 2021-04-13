@@ -10,8 +10,7 @@ import org.json.JSONObject;
 
 public class SignViewModel extends ViewModel {
 
-    private MutableLiveData<ResponseToken> token;
-    private JSONObject error;
+    private MutableLiveData<Pair<ResponseToken, JSONObject>> data;
     private SignRepository signRepository;
 
     public void init() {
@@ -19,20 +18,15 @@ public class SignViewModel extends ViewModel {
             return;
         }
         signRepository = SignRepository.getInstance();
+        data = new MutableLiveData<>();
     }
 
-    public LiveData<ResponseToken> getToken() {
-        return token;
-    }
-
-    public JSONObject getError() {
-        return error;
+    public LiveData<Pair<ResponseToken, JSONObject>> getResponse() {
+        return data;
     }
 
     public void authenticate(String email, String pass) {
-        Pair<MutableLiveData<ResponseToken>, JSONObject> response = signRepository.authenticate(email, pass);
-        token = response.first;
-        error = response.second;
+        signRepository.authenticate(email, pass, data);
     }
 
 }
