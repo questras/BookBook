@@ -31,19 +31,20 @@ public class SignIn extends Fragment {
         MaterialButton signUpButton = view.findViewById(R.id.sign_up_button);
         MaterialButton signInButton = view.findViewById(R.id.sign_in_button);
 
-        SignViewModel model = new ViewModelProvider(this).get(SignViewModel.class);
-        model.init();
+        SignViewModel model = new ViewModelProvider(requireActivity()).get(SignViewModel.class);
         model.getResponse().observe(requireActivity(), response -> {
-            if (response.first == null) {
+            if (response != null && response.first == null) {
                 JSONObject err = response.second;
 
                 if (err.has("email"))
-                    mailTextInput.setError(err.optString("mail"));
+                    mailTextInput.setError(err.optJSONArray("email").optString(0));
                 else
                     mailTextInput.setError(null);
 
                 if (err.has("password"))
-                    passwordTextInput.setError(err.optString("password"));
+                    passwordTextInput.setError(err.optJSONArray("password").optString(0));
+                else if (err.has("non_field_errors"))
+                    passwordTextInput.setError("Wrong password or mail");
                 else
                     passwordTextInput.setError(null);
             }
@@ -51,7 +52,7 @@ public class SignIn extends Fragment {
 
         mailEditText.setOnKeyListener((v, i, keyEvent) -> {
             if (isMailValid(mailEditText.getText())) {
-                mailEditText.setError(null);
+                mailTextInput.setError(null);
             }
             return false;
         });

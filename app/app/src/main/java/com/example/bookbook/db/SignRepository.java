@@ -31,7 +31,7 @@ public class SignRepository {
 
     public void authenticate(String email, String pass,
                              MutableLiveData<Pair<ResponseToken, JSONObject>> data) {
-        api.acquireToken(email, pass, device).enqueue(new Callback<ResponseToken>() {
+        api.acquireToken(new RequestToken(email, pass, device)).enqueue(new Callback<ResponseToken>() {
             @Override
             public void onResponse(@NonNull Call<ResponseToken> call,
                                    @NonNull Response<ResponseToken> response) {
@@ -39,8 +39,9 @@ public class SignRepository {
                     data.setValue(new Pair<>(response.body(), null));
                 } else {
                     try {
-                        if (response.errorBody() != null)
+                        if (response.errorBody() != null) {
                             data.setValue(new Pair<>(null, new JSONObject(response.errorBody().string())));
+                        }
                     } catch (Exception e) {
                         Log.d("Response", "Exception during response handling");
                     }
