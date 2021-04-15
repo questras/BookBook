@@ -13,6 +13,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/*
+ * Class responsible for endpoints interaction with tokens and registration
+ */
 public class SignRepository {
 
     private static final String device = "Smartphone";

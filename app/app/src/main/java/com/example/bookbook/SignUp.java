@@ -37,6 +37,7 @@ public class SignUp extends Fragment {
 
         SignViewModel model = new ViewModelProvider(requireActivity()).get(SignViewModel.class);
         model.getRegisterResp().observe(requireActivity(), response -> {
+//            Wrong credentials handling
             if (response != null) {
                 if (response.has("email"))
                     mailTextInput.setError(response.optJSONArray("email").optString(0));

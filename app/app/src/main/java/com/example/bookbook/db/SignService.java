@@ -9,6 +9,9 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
+/*
+ * REST service
+ */
 public interface SignService {
 
     @Headers({"Accept:application/json", "Content-Type:application/json;"})

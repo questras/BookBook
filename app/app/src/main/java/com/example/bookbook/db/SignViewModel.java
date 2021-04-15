@@ -8,6 +8,11 @@ import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
+/*
+ * Class aware of activity life cycle
+ * Holds data received from db
+ * Responsible for interaction Activity - db
+ */
 public class SignViewModel extends ViewModel {
 
     private MutableLiveData<Pair<ResponseToken, JSONObject>> token;

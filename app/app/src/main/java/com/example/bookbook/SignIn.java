@@ -33,6 +33,7 @@ public class SignIn extends Fragment {
 
         SignViewModel model = new ViewModelProvider(requireActivity()).get(SignViewModel.class);
         model.getToken().observe(requireActivity(), response -> {
+//            Wrong credentials handling
             if (response != null && response.first == null) {
                 JSONObject err = response.second;
 

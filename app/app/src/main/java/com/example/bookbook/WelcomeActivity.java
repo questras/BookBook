@@ -27,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationHost
         model.getToken().observe(this, response -> {
             if (response == null) {
                 Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
-            } else if (response.first != null) {
+            } else if (response.first != null) { // deserialization success, token available
                 switchToMain();
             }
         });
