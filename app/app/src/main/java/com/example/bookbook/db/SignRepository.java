@@ -6,6 +6,7 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -15,6 +16,7 @@ import retrofit2.Response;
 public class SignRepository {
 
     private static final String device = "Smartphone";
+    private static final String success = "{\"success\":1}";
     private static SignRepository signRepository;
     private final SignService api;
 
@@ -51,6 +53,37 @@ public class SignRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseToken> call,
                                   @NonNull Throwable t) {
+                Log.d("Response", "Failure");
+                data.setValue(null);
+            }
+        });
+    }
+
+    public void register(String email, String pass, String firstName, String lastName,
+                         MutableLiveData<JSONObject> data) {
+        api.register(new RequestRegister(email, pass, firstName, lastName)).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call,
+                                   @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        data.setValue(new JSONObject(success));
+                    } catch (JSONException e) {
+                        Log.d("JSON", "Error during creation");
+                    }
+                } else {
+                    try {
+                        if (response.errorBody() != null) {
+                            data.setValue(new JSONObject(response.errorBody().string()));
+                        }
+                    } catch (Exception e) {
+                        Log.d("Response error", "Exception during response handling");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 Log.d("Response", "Failure");
                 data.setValue(null);
             }

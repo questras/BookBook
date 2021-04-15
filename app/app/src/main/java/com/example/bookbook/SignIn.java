@@ -32,7 +32,7 @@ public class SignIn extends Fragment {
         MaterialButton signInButton = view.findViewById(R.id.sign_in_button);
 
         SignViewModel model = new ViewModelProvider(requireActivity()).get(SignViewModel.class);
-        model.getResponse().observe(requireActivity(), response -> {
+        model.getToken().observe(requireActivity(), response -> {
             if (response != null && response.first == null) {
                 JSONObject err = response.second;
 

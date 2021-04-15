@@ -24,11 +24,20 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationHost
 
         SignViewModel model = new ViewModelProvider(this).get(SignViewModel.class);
         model.init();
-        model.getResponse().observe(this, response -> {
+        model.getToken().observe(this, response -> {
             if (response == null) {
                 Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
             } else if (response.first != null) {
                 switchToMain();
+            }
+        });
+
+        model.getRegisterResp().observe(this, response -> {
+            if (response == null) {
+                Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            } else if (response.has("success")) {
+                navigateTo(new SignIn(), true);
+                Toast.makeText(getApplicationContext(), "user created", Toast.LENGTH_LONG).show();
             }
         });
 
