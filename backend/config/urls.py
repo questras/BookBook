@@ -18,7 +18,8 @@ from django.urls import include, path
 
 api_urls = [
     path('auth/',  include('token_auth.urls')),
-    path('rf/', include('rest_framework.urls'))
+    path('rf/', include('rest_framework.urls')),
+    path('offers/', include('offers.urls')),
 ]
 
 urlpatterns = [
