@@ -47,5 +47,4 @@ class OfferImage(models.Model):
     id = models.AutoField(primary_key=True)
 
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    # TODO for api specify upload_to location
-    image = models.ImageField()
+    image = models.ImageField(upload_to='images/')

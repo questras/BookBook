@@ -133,5 +133,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+# Media
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
+
 # Auth
 AUTH_USER_MODEL = 'users.CustomUser'

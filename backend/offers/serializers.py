@@ -2,10 +2,16 @@ import re
 
 from rest_framework import serializers
 
-from .models import Offer
+from .models import Offer, OfferImage
 from users.serializers import CustomUserSerializer
 
 polish_phone_number_regex = r'(\+48){0,1}\s*([0-9]\s*){9}'
+
+
+class OfferImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OfferImage
+        fields = ('image', 'offer')
 
 
 class OfferSerializer(serializers.ModelSerializer):
@@ -21,12 +27,17 @@ class OfferSerializer(serializers.ModelSerializer):
         format='%Y-%m-%d %H:%M:%S',
         read_only=True
     )
+    images = OfferImageSerializer(
+        source='offerimage_set',
+        read_only=True,
+        many=True
+    )
 
     class Meta:
         model = Offer
         fields = ('id', 'title', 'author', 'description',
                   'state', 'city', 'status', 'created', 'updated',
-                  'lender', 'lender_phone')
+                  'lender', 'lender_phone', 'images')
         read_only_fields = ('id', 'status')
 
     def validate_lender_phone(self, value):
