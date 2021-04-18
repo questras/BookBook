@@ -22,8 +22,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="48dp"
             android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/book"
-            android:contentDescription="@string/logo" />
+            android:contentDescription="@string/logo"
+            app:srcCompat="@drawable/book" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="@string/mail_hint"
-            android:hint="@string/mail_hint">
+            android:hint="@string/mail_hint"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mail_edit_text"
@@ -74,8 +75,8 @@
             android:layout_marginTop="@dimen/reg_margin">
 
             <com.google.android.material.button.MaterialButton
-                style="@style/ButtonStyle"
                 android:id="@+id/sign_in_button"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -87,8 +88,8 @@
                 android:text="@string/sign_in" />
 
             <com.google.android.material.button.MaterialButton
-                style="@style/ButtonStyle"
                 android:id="@+id/sign_up_button"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/sign_in_button"
