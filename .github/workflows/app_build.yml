@@ -23,3 +23,5 @@ jobs:
         run: chmod +x app/gradlew
       - name: Build with Gradle
         run: ./app/gradlew build
+      - name: Run Android Tests
+        run: ./app/src/androidTest/java/com/example/bookbook/ExampleInstrumentedTest.java
