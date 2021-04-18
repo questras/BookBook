@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - develop
-      - release
-      - master
   pull_request:
     branches:
       - develop
-      - release
-      - master
 
 jobs:
   build:
@@ -27,9 +23,3 @@ jobs:
         run: chmod +x app/gradlew
       - name: Build with Gradle
         run: ./app/gradlew build
-      - name: Run android tests with coverage
-        working-directory: ./app/src/app/androidTest/java/com/example/bookbook
-        run: coverage run *.java coverage report --fail-under=50
-      - name: Run tests with coverage
-        working-directory: ./app/src/app/test/java/com/example/bookbook
-        run: coverage run *.java coverage report --fail-under=50
