@@ -28,8 +28,8 @@ jobs:
       - name: Build with Gradle
         run: ./app/gradlew build
       - name: Run android tests with coverage
-        working-directory: ./app/androidTest/java/com/example/bookbook
+        working-directory: ./app/src/app/androidTest/java/com/example/bookbook
         run: coverage run --source='.' coverage report --fail-under=50
       - name: Run tests with coverage
-        working-directory: ./app/test/java/com/example/bookbook
+        working-directory: ./app/src/app/test/java/com/example/bookbook
         run: coverage run --source='.' coverage report --fail-under=50
