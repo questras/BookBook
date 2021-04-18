@@ -35,6 +35,9 @@ class Offer(models.Model):
     lender = models.ForeignKey(User, on_delete=models.CASCADE, help_text='Who offered to lend a book')
     lender_phone = models.CharField(max_length=13, help_text='Lender\'s contact information')
 
+    def __str__(self) -> str:
+        return f'{self.id}. ({self.title}, {self.author}) by {self.lender.get_full_name()}'
+
 
 class OfferImage(models.Model):
     """
@@ -44,5 +47,4 @@ class OfferImage(models.Model):
     id = models.AutoField(primary_key=True)
 
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    # TODO for api specify upload_to location
-    image = models.ImageField()
+    image = models.ImageField(upload_to='images/')
