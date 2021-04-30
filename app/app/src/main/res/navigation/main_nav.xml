@@ -14,7 +14,11 @@
         android:id="@+id/newOffer"
         android:name="com.example.bookbook.NewOffer"
         android:label="fragment_new_offer"
-        tools:layout="@layout/fragment_new_offer" />
+        tools:layout="@layout/fragment_new_offer" >
+        <action
+            android:id="@+id/add_successful"
+            app:destination="@id/userProfile" />
+    </fragment>
     <fragment
         android:id="@+id/searchEngine"
         android:name="com.example.bookbook.SearchEngine"

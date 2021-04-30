@@ -18,8 +18,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONObject;
-
 public class SignUp extends Fragment {
 
     @Override
@@ -33,7 +31,7 @@ public class SignUp extends Fragment {
         final TextInputLayout lastNameTextInput = view.findViewById(R.id.last_name_text_input);
         final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
         final TextInputEditText retypePasswordEditText = view.findViewById(R.id.retype_password_edit_text);
-        MaterialButton signUpButton = view.findViewById(R.id.sign_up_button);
+        MaterialButton signUpButton = view.findViewById(R.id.add_offer_button);
 
         SignViewModel model = new ViewModelProvider(requireActivity()).get(SignViewModel.class);
         model.getRegisterResp().observe(requireActivity(), response -> {

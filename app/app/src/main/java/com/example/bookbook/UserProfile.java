@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.google.android.material.button.MaterialButton;
+
 public class UserProfile extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         ImageButton likeButton = view.findViewById(R.id.like_button);
         ImageButton dislikeButton = view.findViewById(R.id.dislike_button);
+        MaterialButton historyButton = view.findViewById(R.id.user_history_button);
 
         likeButton.setOnClickListener(new View.OnClickListener() {
             private boolean liked = false;
@@ -38,6 +41,13 @@ public class UserProfile extends Fragment {
                 else
                     dislikeButton.setImageResource(R.drawable.ic_disliked);
                 disliked = !disliked;
+            }
+        });
+
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                TODO
             }
         });
 
