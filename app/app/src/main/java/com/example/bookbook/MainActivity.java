@@ -5,10 +5,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity implements NavigationHost {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,23 +21,12 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container_view, new UserProfile())
-                    .setReorderingAllowed(true)
-                    .commit();
-        }
-    }
 
-    @Override
-    public void navigateTo(Fragment fragment, boolean addToBackStack) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container_view, fragment)
-                .setReorderingAllowed(true);
-        if (addToBackStack)
-            transaction.addToBackStack(null);
-        transaction.commit();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_view);
+        NavController navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(bottomNav, navController);
+
     }
 }
