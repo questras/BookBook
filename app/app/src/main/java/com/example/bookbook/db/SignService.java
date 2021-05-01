@@ -14,19 +14,19 @@ import retrofit2.http.PUT;
  */
 public interface SignService {
 
-    @Headers({"Accept:application/json", "Content-Type:application/json;"})
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("api/auth/acquire_token")
     Call<ResponseToken> acquireToken(@Body RequestToken request);
 
-    @Headers({"Accept:application/json", "Content-Type:application/json;"})
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("api/auth/register")
     Call<Void> register(@Body RequestRegister request);
 
-    @Headers({"Accept:application/json", "Content-Type:application/json;"})
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("api/auth/revoke_token")
     Call<Void> revokeToken(@Field("token") String token);
 
-    @Headers({"Accept:application/json", "Content-Type:application/json;"})
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
     @PUT("api/auth/renew_token")
     Call<Void> renew_Token(@Field("token") String token);
 }

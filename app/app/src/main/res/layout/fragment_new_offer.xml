@@ -28,7 +28,7 @@
             android:textSize="30sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/profile_button"
+            android:id="@+id/add_photo_button"
             style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,21 +44,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10sp"
-            android:text="@string/add_location"
+            android:text="@string/book_info_header"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/country_text_input"
+            android:id="@+id/book_title_text_input"
             style="@style/SignUpInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/add_country"
-            android:hint="@string/add_country">
+            android:autofillHints="@string/title_hint"
+            android:hint="@string/title_hint"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/country_edit_text"
+                android:id="@+id/book_title_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -66,12 +66,39 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/book_author_text_input"
+            style="@style/SignUpInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/author_hint"
+            android:hint="@string/author_hint"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/book_author_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10sp"
+            android:text="@string/add_location"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/state_text_input"
             style="@style/SignUpInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="@string/add_state"
-            android:hint="@string/add_state">
+            android:hint="@string/add_state"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/state_edit_text"
@@ -87,26 +114,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="@string/add_city"
-            android:hint="@string/add_city">
+            android:hint="@string/add_city"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/city_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/mail_text_input"
-            style="@style/SignUpInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="@string/add_street"
-            android:hint="@string/add_street">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/street_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -123,18 +135,18 @@
             android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/first_name_text_input"
+            android:id="@+id/phone_text_input"
             style="@style/SignUpInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/phone_number_ex"
-            android:hint="@string/phone_number_ex">
+            android:hint="@string/phone_number_ex"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/first_name_edit_text"
+                android:id="@+id/phone_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="phone"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,15 +160,15 @@
             android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/last_name_text_input"
+            android:id="@+id/description_text_input"
             style="@style/SignUpInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/description_ex"
-            android:hint="@string/description_ex">
+            android:hint="@string/description_ex"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/last_name_edit_text"
+                android:id="@+id/description_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"

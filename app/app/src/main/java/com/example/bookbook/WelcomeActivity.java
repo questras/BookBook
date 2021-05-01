@@ -13,7 +13,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bookbook.db.SignViewModel;
 
+import org.jetbrains.annotations.NonNls;
+
 public class WelcomeActivity extends AppCompatActivity implements NavigationHost {
+
+    private SignViewModel model;
+    public static final String TOKEN_MESSAGE = "com.example.android.twoactivities.extra.token";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationHost
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        SignViewModel model = new ViewModelProvider(this).get(SignViewModel.class);
+        model = new ViewModelProvider(this).get(SignViewModel.class);
         model.init();
         model.getToken().observe(this, response -> {
             if (response == null) {
@@ -64,6 +69,7 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationHost
     public void switchToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(TOKEN_MESSAGE, model.getToken().getValue().first);
         startActivity(intent);
         finish();
     }

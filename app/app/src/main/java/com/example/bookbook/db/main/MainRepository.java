@@ -35,7 +35,7 @@ public class MainRepository {
                          String state, String city, String lender_phone,
                          String token, MutableLiveData<JSONObject> data) {
         api.addOffer(new RequestAddOffer(title, author, description, state, city, lender_phone),
-                token).enqueue(new Callback<Void>() {
+                "Token " + token).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call,
                                    @NonNull Response<Void> response) {
@@ -70,4 +70,5 @@ public class MainRepository {
             }
         }
     }
+
 }
