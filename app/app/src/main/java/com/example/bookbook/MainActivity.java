@@ -27,8 +27,6 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int REQUEST_IMAGE_CAPTURE = 1;
-    Bitmap addOfferImage;
     private NavController navController;
 
     @Override
@@ -51,28 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 new toastObserver("Offer added!", R.id.add_successful));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            addOfferImage = (Bitmap) extras.get("data");
-        }
-    }
-
-    public void takePhoto() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-//    Navigate to any fragment through action id
+    //    Navigate to any fragment through action id
     public void navigateTo(int action) {
         navController.navigate(action);
     }
 
-//    Simple observer for toasting if successful and switching fragments
+    //    Simple observer for toasting if successful and switching fragments
     class toastObserver implements Observer<JSONObject> {
         private final String onSuccessMsg;
         private final int actionOnSuccess;
@@ -86,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         public void onChanged(JSONObject response) {
             if (response == null) {
                 Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
-            } else if (response.has("success")) {
+            } else if (response.has("id")) {
                 navigateTo(actionOnSuccess);
                 Toast.makeText(getApplicationContext(), onSuccessMsg, Toast.LENGTH_LONG).show();
             }

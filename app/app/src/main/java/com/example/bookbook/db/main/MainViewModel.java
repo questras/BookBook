@@ -39,4 +39,8 @@ public class MainViewModel extends ViewModel {
         mainRepository.addOffer(title, author, description, state, city,
                 lender_phone, token.getValue().getToken(), addOfferResp);
     }
+
+    public void addImage(int id, String image, MutableLiveData<JSONObject> data) {
+        mainRepository.addImage(id, image, token.getValue().getToken(), data);
+    }
 }

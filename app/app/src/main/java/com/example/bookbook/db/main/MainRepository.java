@@ -10,6 +10,9 @@ import com.example.bookbook.db.RetrofitGson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,15 +38,32 @@ public class MainRepository {
                          String state, String city, String lender_phone,
                          String token, MutableLiveData<JSONObject> data) {
         api.addOffer(new RequestAddOffer(title, author, description, state, city, lender_phone),
-                "Token " + token).enqueue(new Callback<Void>() {
+                "Token " + token).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call,
-                                   @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
                 genericOnResponse(response, data);
             }
 
             @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.d("Response", "Failure");
+                data.setValue(null);
+            }
+        });
+    }
+
+    public void addImage(int id, String image, String token, MutableLiveData<JSONObject> data) {
+        api.addImage(new RequestImage(id, image), "Token " + token).
+                enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                genericOnResponse(response, data);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Log.d("Response", "Failure");
                 data.setValue(null);
             }
@@ -52,13 +72,16 @@ public class MainRepository {
 
     /*Generic function when we only care whether response was successful
     unless returns error messages*/
-    private void genericOnResponse(@NonNull Response<Void> response,
+    private void genericOnResponse(@NonNull Response<ResponseBody> response,
                                    MutableLiveData<JSONObject> data) {
         if (response.isSuccessful()) {
             try {
-                data.setValue(new JSONObject(success));
+                JSONObject res = new JSONObject(response.body().string());
+                data.setValue(res);
             } catch (JSONException e) {
                 Log.d("JSON", "Error during creation");
+            } catch (IOException e) {
+                Log.d("JSON", "Error during response conversion");
             }
         } else {
             try {
