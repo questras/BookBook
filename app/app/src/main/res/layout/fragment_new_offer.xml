@@ -27,17 +27,16 @@
             android:textColor="@color/primary_dark"
             android:textSize="30sp" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/add_photo_button"
-            style="@style/ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/book_image"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
-            android:text="@string/add_photo"
-            app:icon="@drawable/ic_add"
             app:iconGravity="start"
-            app:iconTint="@color/primary_dark" />
+            android:src="@drawable/ic_photo"
+            android:background="@color/white"/>
 
         <TextView
             android:layout_width="wrap_content"

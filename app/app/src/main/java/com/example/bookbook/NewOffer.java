@@ -1,9 +1,15 @@
 package com.example.bookbook;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,15 +23,18 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class NewOffer extends Fragment {
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_offer, container, false);
         MaterialButton addOfferButton = view.findViewById(R.id.add_offer_button);
+        ImageButton addPhotoButton = view.findViewById(R.id.add_photo_button);
         MainViewModel model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         model.getAddOfferResp().observe(requireActivity(), new ResponesObserver(view));
 
@@ -38,6 +47,15 @@ public class NewOffer extends Fragment {
                         ((TextInputEditText) view.findViewById(R.id.city_edit_text)).getText().toString(),
                         ((TextInputEditText) view.findViewById(R.id.description_edit_text)).getText().toString(),
                         ((TextInputEditText) view.findViewById(R.id.phone_edit_text)).getText().toString());
+            }
+
+        });
+
+        addPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) requireActivity()).takePhoto();
+                addPhotoButton.setImageBitmap(((MainActivity) requireActivity()).addOfferImage);
             }
         });
 
@@ -70,6 +88,6 @@ public class NewOffer extends Fragment {
                 }
             }
         }
-
     }
+
 }

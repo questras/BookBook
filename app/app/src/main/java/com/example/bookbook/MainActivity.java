@@ -1,10 +1,15 @@
 package com.example.bookbook;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
@@ -21,6 +26,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
+    Bitmap addOfferImage;
     private NavController navController;
 
     @Override
@@ -41,6 +49,22 @@ public class MainActivity extends AppCompatActivity {
 
         model.getAddOfferResp().observe(this,
                 new toastObserver("Offer added!", R.id.add_successful));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            addOfferImage = (Bitmap) extras.get("data");
+        }
+    }
+
+    public void takePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
 //    Navigate to any fragment through action id
