@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 api_urls = [
     path('auth/',  include('token_auth.urls')),
+    path('auth/', include('users.urls')),
     path('rf/', include('rest_framework.urls')),
     path('', include('offers.urls')),
 ]
