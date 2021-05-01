@@ -11,7 +11,7 @@ polish_phone_number_regex = r'(\+48){0,1}\s*([0-9]\s*){9}'
 class OfferImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = OfferImage
-        fields = ('image', 'offer')
+        fields = ('id', 'image', 'offer')
 
 
 class OfferSerializer(serializers.ModelSerializer):
