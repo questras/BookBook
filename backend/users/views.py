@@ -1,4 +1,4 @@
-from rest_framework.generics import UpdateAPIView
+from rest_framework.generics import UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 
 from token_auth.auth import TokenAuthentication
-from .serializers import ChangePasswordSerializer
+from .serializers import ChangePasswordSerializer, CustomUserSerializer
 
 
 User = get_user_model()
@@ -41,3 +41,13 @@ class ChangePasswordView(UpdateAPIView):
             return Response(status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfileView(RetrieveAPIView):
+    """View to get user's profile data specified in serializer."""
+
+    queryset = User.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = CustomUserSerializer
+    model = User
