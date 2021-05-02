@@ -22,4 +22,5 @@ All endpoints need token authentication header: "Authorization: Token \<your-tok
     - read offer image - GET method
     - delete offer image - DELETE method
     - options - OPTIONS method
-
+- `/api/offer_search`
+    - search though offers - GET method
