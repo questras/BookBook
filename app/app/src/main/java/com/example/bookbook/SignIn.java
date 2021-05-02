@@ -9,10 +9,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bookbook.db.SignViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONObject;
 
 public class SignIn extends Fragment {
 
@@ -22,38 +26,63 @@ public class SignIn extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         final TextInputLayout passwordTextInput = view.findViewById(R.id.password_text_input);
         final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
-        MaterialButton signUpButton = view.findViewById(R.id.sign_up_button);
+        final TextInputLayout mailTextInput = view.findViewById(R.id.mail_text_input);
+        final TextInputEditText mailEditText = view.findViewById(R.id.mail_edit_text);
+        MaterialButton signUpButton = view.findViewById(R.id.add_offer_button);
         MaterialButton signInButton = view.findViewById(R.id.sign_in_button);
 
+        SignViewModel model = new ViewModelProvider(requireActivity()).get(SignViewModel.class);
+        model.getToken().observe(requireActivity(), response -> {
+//            Wrong credentials handling
+            if (response != null && response.first == null) {
+                JSONObject err = response.second;
+
+                if (err.has("email"))
+                    mailTextInput.setError(err.optJSONArray("email").optString(0));
+                else
+                    mailTextInput.setError(null);
+
+                if (err.has("password"))
+                    passwordTextInput.setError(err.optJSONArray("password").optString(0));
+                else if (err.has("non_field_errors"))
+                    passwordTextInput.setError("Wrong password or mail");
+                else
+                    passwordTextInput.setError(null);
+            }
+        });
+
+        mailEditText.setOnKeyListener((v, i, keyEvent) -> {
+            if (isMailValid(mailEditText.getText().toString())) {
+                mailTextInput.setError(null);
+            }
+            return false;
+        });
+
         passwordEditText.setOnKeyListener((v, i, keyEvent) -> {
-            if (isPasswordValid(passwordEditText.getText())) {
+            if (isPasswordValid(passwordEditText.getText().toString())) {
                 passwordTextInput.setError(null);
             }
             return false;
         });
 
         signInButton.setOnClickListener(v -> {
-            if (!isPasswordValid(passwordEditText.getText())) {
-                passwordTextInput.setError(getString(R.string.error_password_len));
-            } else {
-                passwordTextInput.setError(null);
-                if (getActivity() != null) {
-                    ((WelcomeActivity) getActivity()).switchToMain();
-                }
-            }
+            model.authenticate(mailEditText.getText().toString(), passwordEditText.getText().toString());
         });
 
         signUpButton.setOnClickListener(v -> {
+            mailTextInput.setError(null);
             passwordTextInput.setError(null);
-            if (getActivity() != null) {
-                ((NavigationHost) getActivity()).navigateTo(new SignUp(), true);
-            }
+            ((NavigationHost) requireActivity()).navigateTo(new SignUp(), true);
         });
 
         return view;
     }
 
-    private boolean isPasswordValid(@Nullable Editable text) {
+    protected boolean isPasswordValid(@Nullable String text) {
         return text != null && text.length() >= 8;
+    }
+
+    protected boolean isMailValid(@Nullable String text) {
+        return text != null && text.toString().contains("@");
     }
 }
