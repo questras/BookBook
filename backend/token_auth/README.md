@@ -6,6 +6,5 @@ This module provides token-based authorization for REST API. It heavily uses [`d
 - `/api/auth/acquire_token`
 - `/api/auth/revoke_token`
 - `/api/auth/renew_token`
-- `/api/auth/register`
 
 To see details of given endpoint simply run application and visit e.g. [localhost:8000/api/auth/acquire_token](http://localhost:8000/api/auth/acquire_token).

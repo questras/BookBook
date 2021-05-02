@@ -1,8 +1,6 @@
-from rest_framework import serializers, exceptions
-from django.core import exceptions as django_exceptions
-from django.contrib.auth import get_user_model, password_validation
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
-from .models import AuthToken
 User = get_user_model()
 
 
@@ -55,42 +53,6 @@ class CredentialsSerializer(serializers.Serializer):
         attrs['user'] = user
         attrs['device'] = device
         return attrs
-
-
-class RegistationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        label='Password',
-        style={'input_type': 'password'},
-        trim_whitespace=False,
-        write_only=True
-    )
-
-    class Meta:
-        model = User
-        fields = ['email', 'password', 'first_name', 'last_name']
-        extra_kwargs = {
-            'first_name': {'required': True, 'allow_blank': False},
-            'last_name': {'required': True, 'allow_blank': False}
-        }
-
-    def validate(self, data):
-        user = User(**data)
-        password = data.get('password')
-
-        try:
-            password_validation.validate_password(password=password, user=User)
-        except django_exceptions.ValidationError as e:
-            raise serializers.ValidationError({'password': list(e.messages)})
-
-        return super(RegistationSerializer, self).validate(data)
-
-    def create(self, validated_data):
-        return User.objects.create_user(
-            validated_data['email'],
-            validated_data['password'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-        )
 
 
 class AuthTokenSerializer(serializers.Serializer):
