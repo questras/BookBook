@@ -3,6 +3,7 @@ package com.example.bookbook;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -26,26 +27,34 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Struct;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class NewOffer extends Fragment {
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap offerImageToDisplay;
-    private String[] offerImageToSend;
+    private byte[][] offerImageToSend;
     private ImageButton addPhotoButton;
+    private File[] imageToSend;
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_offer, container, false);
-        offerImageToSend = new String[]{""};
+        offerImageToSend = new byte[][]{{0}};
+        imageToSend = new File[]{null};
         MaterialButton addOfferButton = view.findViewById(R.id.add_offer_button);
         addPhotoButton = view.findViewById(R.id.add_photo_button);
         MainViewModel model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        model.getAddOfferResp().observe(requireActivity(), new AddOfferResponseObserver(view, offerImageToSend));
+        model.getAddOfferResp().observe(requireActivity(), new AddOfferResponseObserver(view, offerImageToSend, imageToSend));
 
         addOfferButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,9 +89,13 @@ public class NewOffer extends Fragment {
             offerImageToDisplay = (Bitmap) extras.get("data");
             addPhotoButton.setImageBitmap(Bitmap.createScaledBitmap(offerImageToDisplay, 500, 500, true));
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            offerImageToDisplay.compress(Bitmap.CompressFormat.JPEG, 80, stream); //compress to which format you want.
-            byte[] byteArr = stream.toByteArray();
-            offerImageToSend[0] = Base64.encodeToString(byteArr, Base64.DEFAULT);
+            offerImageToDisplay.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+            offerImageToSend[0] = stream.toByteArray();
+            try {
+                imageToSend[0] = createImageFile(offerImageToDisplay);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -95,13 +108,36 @@ public class NewOffer extends Fragment {
         }
     }
 
+    private File createImageFile(Bitmap bitmap) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        OutputStream os;
+        try {
+            os = new FileOutputStream(image);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }
+        return image;
+    }
+
     class AddOfferResponseObserver implements Observer<JSONObject> {
         private final ArrayList<TextInputLayout> textFields;
         private final ArrayList<String> fieldNames = new ArrayList<String>(
                 Arrays.asList("title", "author", "description", "state", "city", "lender_phone"));
-        private final String[] offerImageToSend;
+        private final byte[][] offerImageToSend;
+        private final File[] toSend;
 
-        public AddOfferResponseObserver(View view, String[] offerImageToSend) {
+        public AddOfferResponseObserver(View view, byte[][] offerImageToSend, File[] image) {
             textFields = new ArrayList<>();
             textFields.add(view.findViewById(R.id.book_title_text_input));
             textFields.add(view.findViewById(R.id.book_author_text_input));
@@ -110,6 +146,7 @@ public class NewOffer extends Fragment {
             textFields.add(view.findViewById(R.id.description_text_input));
             textFields.add(view.findViewById(R.id.phone_text_input));
             this.offerImageToSend = offerImageToSend;
+            toSend = image;
         }
 
         @Override
@@ -123,10 +160,11 @@ public class NewOffer extends Fragment {
                 }
             }
 
-            if (response != null && response.has("id") && !offerImageToSend[0].equals("")) {
+            if (response != null && response.has("id") && !Arrays.equals(offerImageToSend[0], new byte[]{0})) {
                 new ViewModelProvider(requireActivity()).get(MainViewModel.class).addImage(
-                        response.optInt("id"), offerImageToSend[0], new MutableLiveData<>());
+                        response.optInt("id"), offerImageToSend[0], toSend[0], new MutableLiveData<>());
             }
+            offerImageToSend[0] = new byte[]{0};
         }
     }
 

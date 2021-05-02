@@ -1,5 +1,6 @@
 package com.example.bookbook.db.main;
 
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,8 +11,14 @@ import com.example.bookbook.db.RetrofitGson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,8 +60,12 @@ public class MainRepository {
         });
     }
 
-    public void addImage(int id, String image, String token, MutableLiveData<JSONObject> data) {
-        api.addImage(new RequestImage(id, image), "Token " + token).
+    public void addImage(int id, byte[] image, File imageFile, String token, MutableLiveData<JSONObject> data) {
+        RequestBody reqImage = RequestBody.create(MediaType.parse("image/*"), imageFile);
+        RequestBody offer = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(id));
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", "image.jpg", reqImage);
+        MultipartBody.Part offerPart = MultipartBody.Part.createFormData("offer", null, offer);
+        api.addImage("Token " + token, imagePart, offerPart).
                 enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,

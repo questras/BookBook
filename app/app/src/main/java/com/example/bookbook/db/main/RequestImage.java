@@ -2,9 +2,9 @@ package com.example.bookbook.db.main;
 
 public class RequestImage {
     private int offerId;
-    private String image;
+    private byte[] image;
 
-    public RequestImage(int offerId, String image) {
+    public RequestImage(int offerId, byte[] image) {
         this.offerId = offerId;
         this.image = image;
     }

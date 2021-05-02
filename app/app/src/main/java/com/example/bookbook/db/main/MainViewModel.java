@@ -11,6 +11,8 @@ import com.example.bookbook.db.SignRepository;
 
 import org.json.JSONObject;
 
+import java.io.File;
+
 public class MainViewModel extends ViewModel {
 
     private MutableLiveData<JSONObject> addOfferResp;
@@ -40,7 +42,7 @@ public class MainViewModel extends ViewModel {
                 lender_phone, token.getValue().getToken(), addOfferResp);
     }
 
-    public void addImage(int id, String image, MutableLiveData<JSONObject> data) {
-        mainRepository.addImage(id, image, token.getValue().getToken(), data);
+    public void addImage(int id, byte[] image, File imageFile, MutableLiveData<JSONObject> data) {
+        mainRepository.addImage(id, image, imageFile, token.getValue().getToken(), data);
     }
 }
