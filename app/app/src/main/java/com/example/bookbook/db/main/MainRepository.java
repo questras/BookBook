@@ -1,6 +1,5 @@
 package com.example.bookbook.db.main;
 
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,8 +12,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -60,25 +57,25 @@ public class MainRepository {
         });
     }
 
-    public void addImage(int id, byte[] image, File imageFile, String token, MutableLiveData<JSONObject> data) {
+    public void addImage(int id, File imageFile, String token, MutableLiveData<JSONObject> data) {
         RequestBody reqImage = RequestBody.create(MediaType.parse("image/*"), imageFile);
         RequestBody offer = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(id));
         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", "image.jpg", reqImage);
         MultipartBody.Part offerPart = MultipartBody.Part.createFormData("offer", null, offer);
         api.addImage("Token " + token, imagePart, offerPart).
                 enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call,
-                                   @NonNull Response<ResponseBody> response) {
-                genericOnResponse(response, data);
-            }
+                    @Override
+                    public void onResponse(@NonNull Call<ResponseBody> call,
+                                           @NonNull Response<ResponseBody> response) {
+                        genericOnResponse(response, data);
+                    }
 
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.d("Response", "Failure");
-                data.setValue(null);
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                        Log.d("Response", "Failure");
+                        data.setValue(null);
+                    }
+                });
     }
 
     /*Generic function for handling responses and converting to JSONObjects*/

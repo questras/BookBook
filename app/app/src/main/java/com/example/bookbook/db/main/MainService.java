@@ -1,7 +1,5 @@
 package com.example.bookbook.db.main;
 
-import com.example.bookbook.db.RequestRegister;
-
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;

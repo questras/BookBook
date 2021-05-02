@@ -1,13 +1,10 @@
 package com.example.bookbook.db.main;
 
-import android.util.Pair;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bookbook.db.ResponseToken;
-import com.example.bookbook.db.SignRepository;
 
 import org.json.JSONObject;
 
@@ -42,7 +39,7 @@ public class MainViewModel extends ViewModel {
                 lender_phone, token.getValue().getToken(), addOfferResp);
     }
 
-    public void addImage(int id, byte[] image, File imageFile, MutableLiveData<JSONObject> data) {
-        mainRepository.addImage(id, image, imageFile, token.getValue().getToken(), data);
+    public void addImage(int id, File imageFile, MutableLiveData<JSONObject> data) {
+        mainRepository.addImage(id, imageFile, token.getValue().getToken(), data);
     }
 }
