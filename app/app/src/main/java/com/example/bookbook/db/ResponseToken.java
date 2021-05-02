@@ -3,7 +3,9 @@ package com.example.bookbook.db;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseToken {
+import java.io.Serializable;
+
+public class ResponseToken implements Serializable {
 
     @SerializedName("token")
     @Expose

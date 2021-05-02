@@ -23,7 +23,7 @@ public class SignRepository {
     private static SignRepository signRepository;
     private final SignService api;
 
-    public SignRepository() {
+    private SignRepository() {
         api = RetrofitGson.createService(SignService.class);
     }
 
