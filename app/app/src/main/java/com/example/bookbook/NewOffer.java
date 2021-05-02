@@ -34,14 +34,14 @@ public class NewOffer extends Fragment {
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap offerImageToDisplay;
-    private String offerImageToSend;
+    private String[] offerImageToSend;
     private ImageButton addPhotoButton;
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_offer, container, false);
-        offerImageToSend = null;
+        offerImageToSend = new String[]{""};
         MaterialButton addOfferButton = view.findViewById(R.id.add_offer_button);
         addPhotoButton = view.findViewById(R.id.add_photo_button);
         MainViewModel model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
@@ -80,9 +80,9 @@ public class NewOffer extends Fragment {
             offerImageToDisplay = (Bitmap) extras.get("data");
             addPhotoButton.setImageBitmap(Bitmap.createScaledBitmap(offerImageToDisplay, 500, 500, true));
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            offerImageToDisplay.compress(Bitmap.CompressFormat.PNG, 90, stream); //compress to which format you want.
+            offerImageToDisplay.compress(Bitmap.CompressFormat.JPEG, 80, stream); //compress to which format you want.
             byte[] byteArr = stream.toByteArray();
-            offerImageToSend = Base64.encodeToString(byteArr, Base64.DEFAULT);
+            offerImageToSend[0] = Base64.encodeToString(byteArr, Base64.DEFAULT);
         }
     }
 
@@ -99,9 +99,9 @@ public class NewOffer extends Fragment {
         private final ArrayList<TextInputLayout> textFields;
         private final ArrayList<String> fieldNames = new ArrayList<String>(
                 Arrays.asList("title", "author", "description", "state", "city", "lender_phone"));
-        private final String offerImageToSend;
+        private final String[] offerImageToSend;
 
-        public AddOfferResponseObserver(View view, String offerImageToSend) {
+        public AddOfferResponseObserver(View view, String[] offerImageToSend) {
             textFields = new ArrayList<>();
             textFields.add(view.findViewById(R.id.book_title_text_input));
             textFields.add(view.findViewById(R.id.book_author_text_input));
@@ -123,9 +123,9 @@ public class NewOffer extends Fragment {
                 }
             }
 
-            if (response != null && response.has("id") && offerImageToSend != null) {
+            if (response != null && response.has("id") && !offerImageToSend[0].equals("")) {
                 new ViewModelProvider(requireActivity()).get(MainViewModel.class).addImage(
-                        response.optInt("id"), offerImageToSend, new MutableLiveData<>());
+                        response.optInt("id"), offerImageToSend[0], new MutableLiveData<>());
             }
         }
     }

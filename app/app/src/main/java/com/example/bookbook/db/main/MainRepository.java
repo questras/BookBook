@@ -70,8 +70,7 @@ public class MainRepository {
         });
     }
 
-    /*Generic function when we only care whether response was successful
-    unless returns error messages*/
+    /*Generic function for handling responses and converting to JSONObjects*/
     private void genericOnResponse(@NonNull Response<ResponseBody> response,
                                    MutableLiveData<JSONObject> data) {
         if (response.isSuccessful()) {
