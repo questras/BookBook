@@ -78,13 +78,33 @@ public class MainRepository {
                 });
     }
 
+    public void signOut(String token, MutableLiveData<JSONObject> data) {
+        api.revokeToken(new RequestRevokeToken(token)).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                genericOnResponse(response, data);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.d("Response", "Failure");
+                data.setValue(null);
+            }
+        });
+    }
+
     /*Generic function for handling responses and converting to JSONObjects*/
     private void genericOnResponse(@NonNull Response<ResponseBody> response,
                                    MutableLiveData<JSONObject> data) {
         if (response.isSuccessful()) {
             try {
-                JSONObject res = new JSONObject(response.body().string());
-                data.setValue(res);
+                if (response.body() == null) {
+                    data.setValue(new JSONObject(success));
+                } else {
+                    JSONObject res = new JSONObject(response.body().string());
+                    data.setValue(res);
+                }
             } catch (JSONException e) {
                 Log.d("JSON", "Error during creation");
             } catch (IOException e) {

@@ -47,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
         model.getAddOfferResp().observe(this,
                 new toastObserver("Offer added!", R.id.add_successful));
+
+        model.getSignOutResp().observe(this, response -> {
+            if (response == null) {
+                Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            } else if (response.has("success")) {
+                Intent intent = new Intent(this , WelcomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     //    Navigate to any fragment through action id

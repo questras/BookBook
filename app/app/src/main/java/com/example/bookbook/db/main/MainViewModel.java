@@ -13,6 +13,7 @@ import java.io.File;
 public class MainViewModel extends ViewModel {
 
     private MutableLiveData<JSONObject> addOfferResp;
+    private MutableLiveData<JSONObject> signOutResp;
     private MutableLiveData<ResponseToken> token;
     private MainRepository mainRepository;
 
@@ -23,6 +24,7 @@ public class MainViewModel extends ViewModel {
         mainRepository = MainRepository.getInstance();
         this.token = new MutableLiveData<>(token);
         addOfferResp = new MutableLiveData<>();
+        signOutResp = new MutableLiveData<>();
     }
 
     public LiveData<ResponseToken> getToken() {
@@ -41,5 +43,13 @@ public class MainViewModel extends ViewModel {
 
     public void addImage(int id, File imageFile, MutableLiveData<JSONObject> data) {
         mainRepository.addImage(id, imageFile, token.getValue().getToken(), data);
+    }
+
+    public MutableLiveData<JSONObject> getSignOutResp() {
+        return signOutResp;
+    }
+
+    public void signOut() {
+        mainRepository.signOut(token.getValue().getToken(), signOutResp);
     }
 }

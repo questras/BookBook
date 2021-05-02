@@ -49,4 +49,5 @@
     <string name="book_info_header">Book:</string>
     <string name="author_hint">Author</string>
     <string name="book_image">book image</string>
+    <string name="sign_out">Sign out</string>
 </resources>

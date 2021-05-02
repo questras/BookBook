@@ -4,12 +4,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.example.bookbook.db.main.MainViewModel;
 import com.google.android.material.button.MaterialButton;
 
 public class UserProfile extends Fragment {
@@ -19,6 +21,8 @@ public class UserProfile extends Fragment {
         ImageButton likeButton = view.findViewById(R.id.like_button);
         ImageButton dislikeButton = view.findViewById(R.id.dislike_button);
         MaterialButton historyButton = view.findViewById(R.id.user_history_button);
+        MaterialButton signOutButton = view.findViewById(R.id.sign_out_button);
+        MainViewModel model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         likeButton.setOnClickListener(new View.OnClickListener() {
             private boolean liked = false;
@@ -50,6 +54,8 @@ public class UserProfile extends Fragment {
 //                TODO
             }
         });
+
+        signOutButton.setOnClickListener(v -> model.signOut());
 
         return view;
     }
