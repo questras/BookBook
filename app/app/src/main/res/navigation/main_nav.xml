@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/userProfile"
-        android:name="com.example.bookbook.UserProfile"
+        android:name="pl.mimuw.bookbook.ui.UserProfile"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
     <fragment
         android:id="@+id/newOffer"
-        android:name="com.example.bookbook.NewOffer"
+        android:name="pl.mimuw.bookbook.ui.NewOffer"
         android:label="fragment_new_offer"
         tools:layout="@layout/fragment_new_offer" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchEngine"
-        android:name="com.example.bookbook.SearchEngine"
+        android:name="pl.mimuw.bookbook.ui.SearchEngine"
         android:label="fragment_search_engine"
         tools:layout="@layout/fragment_search_engine" />
 </navigation>
