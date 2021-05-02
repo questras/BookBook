@@ -50,3 +50,17 @@ class OfferSerializer(serializers.ModelSerializer):
         # Remove unnecessary spacing
         value = value.replace(' ', '')
         return value
+
+
+class OfferSearchSerializer(serializers.ModelSerializer):
+    images = OfferImageSerializer(
+        source='offerimage_set',
+        read_only=True,
+        many=True
+    )
+
+    class Meta:
+        model = Offer
+        fields = ('id', 'title', 'author', 'state',
+                  'city', 'created', 'updated',
+                  'lender', 'images')
