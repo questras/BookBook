@@ -1,10 +1,10 @@
-from rest_framework import status, mixins
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import DestroyAPIView, GenericAPIView, CreateAPIView
+from rest_framework.generics import GenericAPIView
 
-from .serializers import CredentialsSerializer, AuthTokenSerializer, RegistationSerializer
+from .serializers import CredentialsSerializer, AuthTokenSerializer
 from .auth import TokenAuthentication
 from .models import AuthToken
 
@@ -57,15 +57,3 @@ class RenewTokenView(APIView):
     def put(self, request, format=None):
         expires = request.auth.renew()
         return Response({"expires": str(expires)}, status=status.HTTP_200_OK)
-
-
-class RegistrationView(CreateAPIView):
-    """Basic user registration without any kind of email validation"""
-    serializer_class = RegistationSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-
-        return Response(None, status=status.HTTP_201_CREATED)

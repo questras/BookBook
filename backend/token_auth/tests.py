@@ -12,7 +12,6 @@ User = get_user_model()
 acquire_url = reverse('acquire_token')
 renew_url = reverse('renew_token')
 revoke_url = reverse('revoke_token')
-register_url = reverse('register')
 
 
 def _dummy_user():
@@ -130,47 +129,3 @@ class APIRevokeTokenTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(AuthToken.objects.count(), 0)
-
-
-class APIRegisterTests(APITestCase):
-    def setUp(self):
-        self.dummy_data = {
-            'email': 'dummy@dummy.com',
-            'password': 'valid_complicated_password',
-            'first_name': 'Dummy',
-            'last_name': 'MegaDummy'
-        }
-
-    def test_weak_password(self):
-        """Reject weak passords"""
-        data = self.dummy_data
-        data['password'] = 'password'
-        response = self.client.post(register_url, data, format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('password', response.data)
-
-    def test_creates_user(self):
-        """Data integrity test"""
-        data = self.dummy_data
-        response = self.client.post(register_url, data, format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(User.objects.count(), 1)
-
-        user = User.objects.get(email=data['email'])
-        self.assertEqual(user.first_name, data['first_name'])
-        self.assertEqual(user.last_name, data['last_name'])
-        self.assertTrue(user.check_password(data['password']))
-
-    def test_invalid_data(self):
-        """Require valid email and names to be not empty"""
-        data = self.dummy_data
-        data['email'] = 'invalid'
-        data['first_name'] = ''
-        data['last_name'] = ''
-        response = self.client.post(register_url, data, format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('last_name', response.data)
-        self.assertIn('first_name', response.data)

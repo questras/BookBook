@@ -1,4 +1,8 @@
-from rest_framework.generics import UpdateAPIView, RetrieveAPIView
+from rest_framework.generics import (
+    UpdateAPIView,
+    RetrieveAPIView,
+    CreateAPIView
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,7 +10,11 @@ from django.contrib.auth import get_user_model
 
 
 from token_auth.auth import TokenAuthentication
-from .serializers import ChangePasswordSerializer, CustomUserSerializer
+from .serializers import (
+    ChangePasswordSerializer,
+    CustomUserSerializer,
+    RegistationSerializer
+)
 
 
 User = get_user_model()
@@ -51,3 +59,15 @@ class UserProfileView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CustomUserSerializer
     model = User
+
+
+class RegistrationView(CreateAPIView):
+    """Basic user registration without any kind of email validation"""
+    serializer_class = RegistationSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        return Response(None, status=status.HTTP_201_CREATED)
