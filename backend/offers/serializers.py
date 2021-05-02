@@ -11,7 +11,7 @@ polish_phone_number_regex = r'(\+48){0,1}\s*([0-9]\s*){9}'
 class OfferImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = OfferImage
-        fields = ('image', 'offer')
+        fields = ('id', 'image', 'offer')
 
 
 class OfferSerializer(serializers.ModelSerializer):
@@ -50,3 +50,17 @@ class OfferSerializer(serializers.ModelSerializer):
         # Remove unnecessary spacing
         value = value.replace(' ', '')
         return value
+
+
+class OfferSearchSerializer(serializers.ModelSerializer):
+    images = OfferImageSerializer(
+        source='offerimage_set',
+        read_only=True,
+        many=True
+    )
+
+    class Meta:
+        model = Offer
+        fields = ('id', 'title', 'author', 'state',
+                  'city', 'created', 'updated',
+                  'lender', 'images')

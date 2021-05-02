@@ -437,3 +437,97 @@ class ReadOfferImageTests(APITestCase):
 
         self.assertEqual(offer_image_file, self.image_data2['image'])
         self.assertEqual(offer_image2['offer'], self.image_data2['offer'].id)
+
+
+def get_search_offer_data(title: str, author: str, state: str, city: str, n: int):
+    """Return data needed to create instance of offer model
+    for testing purposes ` identifier"""
+
+    return {
+        'author': author,
+        'city': city,
+        'description': f'{n}',
+        'lender_phone': '666555444',
+        'state': state,
+        'title': title,
+    }
+
+
+def extract_id_search(data):
+    return sorted(map(lambda o: dict(o)['id'], data))
+
+
+class OfferSearchTests(APITestCase):
+
+    def setUp(self) -> None:
+        self.user = create_dummy_user(1)
+        self.url = reverse('offer_search')
+
+        self.offer = Offer.objects.create(lender=self.user,
+                                          **get_search_offer_data('One book', 'Jon Erikson', 'Idaho', 'Boise', 1))
+        self.offer2 = Offer.objects.create(lender=self.user,
+                                           **get_search_offer_data('Two book', 'Jon Doe', 'Idaho', 'Meridian', 2))
+        self.offer3 = Offer.objects.create(lender=self.user,
+                                           **get_search_offer_data('Three book', 'Steven Steven', 'Ohio', 'Akron', 3))
+        self.offer4 = Offer.objects.create(lender=self.user,
+                                           **get_search_offer_data('Calculus I', 'Isaac Newton', 'fake', 'fake', 4))
+        self.offer5 = Offer.objects.create(lender=self.user,
+                                           **get_search_offer_data('Fall apple from the sky', 'Isaac Newton', 'fake',
+                                                                   'fake', 5))
+        self.offer6 = Offer.objects.create(lender=self.user,
+                                          **get_search_offer_data('One book', 'Jon Erikson', 'California', 'Boise', 1))
+
+    def test_unauthenticated(self):
+        r = self.client.get(self.url)
+
+        self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_blank_returns_all(self):
+        authorize_user(self, self.user)
+
+        r = self.client.get(self.url)
+
+        self.assertEqual(len(r.data), 6)
+
+    def test_typo_author(self):
+        authorize_user(self, self.user)
+
+        r = self.client.get(self.url, {'author': 'Newtton'})
+
+        self.assertListEqual(extract_id_search(r.data), [self.offer4.id, self.offer5.id])
+
+    def test_typo_state(self):
+        authorize_user(self, self.user)
+
+        r = self.client.get(self.url, {'state': 'idano'})
+
+        self.assertListEqual(extract_id_search(r.data), [self.offer.id, self.offer2.id])
+
+    def test_typo_city(self):
+        authorize_user(self, self.user)
+
+        r = self.client.get(self.url, {'city': 'aakron'})
+
+        self.assertListEqual(extract_id_search(r.data), [self.offer3.id])
+
+    def test_substring_title(self):
+        """Allow searching by some set of words from title"""
+        authorize_user(self, self.user)
+
+        r = self.client.get(self.url, {'title': 'from sky'})
+
+        self.assertListEqual(extract_id_search(r.data), [self.offer5.id])
+
+    def test_bad_conjugation(self):
+        authorize_user(self, self.user)
+
+        r = self.client.get(self.url, {'title': 'Falling'})  # In database we've 'Fall'
+
+        self.assertListEqual(extract_id_search(r.data), [self.offer5.id])
+
+    def test_multiple_conditions(self):
+        authorize_user(self, self.user)
+
+        r = self.client.get(self.url, {'title': 'book', 'author': 'Erikson', 'state': 'California'})
+
+        self.assertListEqual(extract_id_search(r.data), [self.offer6.id])
