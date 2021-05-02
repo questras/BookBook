@@ -43,4 +43,7 @@
     <string name="offer1">Offer 1</string>
     <string name="offer2">Offer 2</string>
     <string name="offer3">Offer 3</string>
+    <string name="search_action">Search</string>
+    <string name="new_book">New Book</string>
+    <string name="profile">Profile</string>
 </resources>

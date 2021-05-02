@@ -28,7 +28,7 @@ public class SignIn extends Fragment {
         final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
         final TextInputLayout mailTextInput = view.findViewById(R.id.mail_text_input);
         final TextInputEditText mailEditText = view.findViewById(R.id.mail_edit_text);
-        MaterialButton signUpButton = view.findViewById(R.id.sign_up_button);
+        MaterialButton signUpButton = view.findViewById(R.id.add_offer_button);
         MaterialButton signInButton = view.findViewById(R.id.sign_in_button);
 
         SignViewModel model = new ViewModelProvider(requireActivity()).get(SignViewModel.class);
