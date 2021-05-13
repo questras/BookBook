@@ -4,13 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Offer {
     public static final String activeStatus = "AC";
     private int id;
-    private String image;
+    private URL imageUrl;
     private String title;
     private String author;
     private String description;
@@ -25,7 +25,11 @@ public class Offer {
                  String state, String city, String lenderEmail, String lenderFirstName,
                  String lenderSecondName, String lenderPhone) {
         this.id = id;
-        this.image = image;
+        try {
+            this.imageUrl = new URL(image);
+        } catch (MalformedURLException e) {
+            this.imageUrl = null;
+        }
         this.title = title;
         this.author = author;
         this.description = description;
@@ -37,19 +41,35 @@ public class Offer {
         this.lenderPhone = lenderPhone;
     }
 
-    public Bitmap getImage(String src) {
-        try {
-            java.net.URL url = new java.net.URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public URL getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getLenderEmail() {
+        return lenderEmail;
+    }
+
+    public String getLenderPhone() {
+        return lenderPhone;
     }
 }

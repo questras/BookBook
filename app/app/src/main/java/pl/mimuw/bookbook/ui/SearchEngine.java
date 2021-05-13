@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +68,10 @@ public class SearchEngine extends Fragment {
                 Log.d("JSON", "Error during data conversion");
             }
         }
-        System.out.println("Frikkin works!");
+
+        RecyclerView offerRv = requireActivity().findViewById(R.id.offerRv);
+        offerRv.setNestedScrollingEnabled(false);
+        offerRv.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        offerRv.setAdapter(new BrowseAdapter(requireActivity(), offers));
     }
 }
