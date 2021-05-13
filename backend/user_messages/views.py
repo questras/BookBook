@@ -1,8 +1,11 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
+from django.utils import timezone
+from django.db.models import Q
 
 from token_auth.auth import TokenAuthentication
 from .serializers import UserMessageSerializer, CreateUserMessageSerializer
+from .models import UserMessage
 
 
 class ReceivedMessagesView(ListAPIView):
@@ -44,3 +47,28 @@ class SendMessageView(CreateAPIView):
         # Set sender to be currently authenticated user.
         serializer.validated_data['sender'] = self.request.user
         serializer.save()
+
+
+class ReadMessageView(RetrieveAPIView):
+    """View to read a single message. Once the message is
+    read first time, its `read_at` field is changed
+    to current datetime. Only users related to
+    message(sender and receiver) can read it."""
+
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    serializer_class = UserMessageSerializer
+
+    def get_queryset(self):
+        return UserMessage.objects.filter(
+            Q(receiver=self.request.user) |
+            Q(sender=self.request.user)
+        )
+
+    def get_object(self):
+        obj = super().get_object()
+        if self.request.user == obj.receiver and obj.read_at is None:
+            obj.read_at = timezone.now()
+            obj.save()
+
+        return obj

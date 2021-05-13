@@ -1,3 +1,5 @@
+from time import sleep
+
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.contrib.auth import get_user_model
@@ -185,3 +187,98 @@ class TestSendMessageView(APITestCase):
             r = self.client.post(self.url, data=data_copy)
             self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
             self.assertEqual(UserMessage.objects.all().count(), 0)
+
+
+class TestReadMessageView(APITestCase):
+    def setUp(self) -> None:
+        self.user1 = create_dummy_user(1)
+        self.user2 = create_dummy_user(2)
+        self.message1 = create_dummy_message(
+            self.user1,
+            self.user2,
+            1
+        )
+        self.url = reverse('read-message', args=(self.message1.id,))
+
+    def test_unauthenticated_cannot_access(self):
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_cannot_read_when_is_not_receiver_nor_sender(self):
+        new_user = create_dummy_user(3)
+        authorize_user(self, new_user)
+
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_user_receiver_can_read(self):
+        authorize_user(self, self.user2)
+
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        message = r.json()
+        self.assertEqual(message['title'], self.message1.title)
+        self.assertEqual(message['body'], self.message1.body)
+
+    def test_user_sender_can_read(self):
+        authorize_user(self, self.user1)
+
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        message = r.json()
+        self.assertEqual(message['title'], self.message1.title)
+        self.assertEqual(message['body'], self.message1.body)
+
+    def test_read_at_doesnt_change_when_sender_reads(self):
+        authorize_user(self, self.user1)
+
+        # read_at is a null before reading.
+        message = UserMessage.objects.all()[0]
+        self.assertEqual(message.read_at, None)
+
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        # read_at is still a null because sender read it, not receiver.
+        message = UserMessage.objects.all()[0]
+        self.assertEqual(message.read_at, None)
+
+    def test_read_at_changes_when_receiver_reads(self):
+        authorize_user(self, self.user2)
+
+        # read_at is a null before reading.
+        message = UserMessage.objects.all()[0]
+        self.assertEqual(message.read_at, None)
+
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        # read_at is not null because receiver read it.
+        message = UserMessage.objects.all()[0]
+        self.assertNotEqual(message.read_at, None)
+
+    def test_read_at_changes_only_once(self):
+        authorize_user(self, self.user2)
+
+        # read_at is a null before reading.
+        message = UserMessage.objects.all()[0]
+        self.assertEqual(message.read_at, None)
+
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        # read_at is not null because receiver read it.
+        message = UserMessage.objects.all()[0]
+        self.assertNotEqual(message.read_at, None)
+
+        old_read_at = message.read_at
+        sleep(1)
+
+        # Read again and check whether read_at changed.
+        r = self.client.get(self.url)
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+        message = UserMessage.objects.all()[0]
+        # read_at shouldn't change.
+        self.assertEqual(message.read_at, old_read_at)
