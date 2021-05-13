@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'offers.apps.OffersConfig',
     'token_auth.apps.TokenAuthConfig',
+    'user_messages.apps.UserMessagesConfig',
 ]
 
 MIDDLEWARE = [
