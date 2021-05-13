@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel;
 
 import pl.mimuw.bookbook.db.ResponseToken;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainViewModel extends ViewModel {
 
@@ -35,6 +37,14 @@ public class MainViewModel extends ViewModel {
         return addOfferResp;
     }
 
+    public MutableLiveData<JSONObject> getSignOutResp() {
+        return signOutResp;
+    }
+
+    public void downloadOffers(MutableLiveData<JSONArray> data) {
+        mainRepository.downloadOffers(token.getValue().getToken(), data);
+    }
+
     public void addOffer(String title, String author, String description,
                          String state, String city, String lender_phone) {
         mainRepository.addOffer(title, author, description, state, city,
@@ -45,9 +55,6 @@ public class MainViewModel extends ViewModel {
         mainRepository.addImage(id, imageFile, token.getValue().getToken(), data);
     }
 
-    public MutableLiveData<JSONObject> getSignOutResp() {
-        return signOutResp;
-    }
 
     public void signOut() {
         mainRepository.signOut(token.getValue().getToken(), signOutResp);

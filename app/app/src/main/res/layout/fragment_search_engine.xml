@@ -42,35 +42,10 @@
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/offer1"
-            style="@style/ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/offer1"
-            app:iconGravity="start"
-            app:iconTint="@color/primary_dark" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/offer2"
-            style="@style/ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/offer2"
-            app:iconGravity="start"
-            app:iconTint="@color/primary_dark" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/offer3"
-            style="@style/ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/offer3"
-            app:iconGravity="start"
-            app:iconTint="@color/primary_dark" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
     </LinearLayout>
 
