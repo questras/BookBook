@@ -1,7 +1,9 @@
 package pl.mimuw.bookbook.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +14,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
 
 import pl.mimuw.bookbook.R;
 import pl.mimuw.bookbook.db.main.Offer;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder> {
 
-    Context context;
+    private Context context;
     private ArrayList<Offer> offers;
+    private ExecutorService threadPool;
 
     public BrowseAdapter(Context context, ArrayList<Offer> offers) {
         this.context = context;
         this.offers = offers;
+        threadPool = newCachedThreadPool();
     }
 
     @NonNull
@@ -42,15 +50,14 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
         holder.title.setText(offers.get(position).getTitle());
         holder.author.setText(offers.get(position).getAuthor());
         URL imageUrl = offers.get(position).getImageUrl();
-//        if (imageUrl != null) {
-//            holder.book.setImageBitmap(Bitmap.createScaledBitmap(offerImageToDisplay,
-//                    500, 500, true));
-//        }
+        if (imageUrl != null) {
+            threadPool.execute(new SetImage(holder.book, imageUrl));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return Math.min(offers.size(), 100);
+        return Math.min(offers.size(), 200);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,6 +74,28 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
             view.setOnClickListener(v -> {
                 Toast.makeText(context, "Hello!", Toast.LENGTH_SHORT).show();
             });
+        }
+    }
+
+    private class SetImage implements Runnable {
+        private final ImageView toSet;
+        private final URL imageUrl;
+
+        public SetImage(ImageView toSet, URL imageUrl) {
+            this.toSet = toSet;
+            this.imageUrl = imageUrl;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+                ((Activity) context).runOnUiThread(() -> {
+                    toSet.setImageBitmap(Bitmap.createScaledBitmap(image, 500, 500, true));
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
