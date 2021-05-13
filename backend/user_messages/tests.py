@@ -127,3 +127,61 @@ class TestReceivedMessagesView(APITestCase):
         first, second = data[0], data[1]
         self.assertEqual(first['title'], later_message.title)
         self.assertEqual(second['title'], self.message2.title)
+
+
+class TestSendMessageView(APITestCase):
+    def setUp(self) -> None:
+        self.user1 = create_dummy_user(1)
+        self.user2 = create_dummy_user(2)
+
+        self.data = {
+            'title': 'test title',
+            'body': 'test body',
+            'receiver': self.user2.id,
+        }
+        self.url = reverse('send-message')
+
+    def test_unauthenticated_cannot_send_message(self):
+        r = self.client.post(self.url, data=self.data)
+        self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(UserMessage.objects.all().count(), 0)
+
+    def test_user_can_send_message(self):
+        authorize_user(self, self.user1)
+
+        r = self.client.post(self.url, data=self.data)
+        self.assertEqual(r.status_code, status.HTTP_201_CREATED)
+
+        self.assertEqual(UserMessage.objects.all().count(), 1)
+        message = UserMessage.objects.all()[0]
+        self.assertEqual(message.title, self.data['title'])
+        self.assertEqual(message.body, self.data['body'])
+        self.assertEqual(message.receiver, self.user2)
+        self.assertEqual(message.sender, self.user1)
+        self.assertEqual(message.read_at, None)
+
+    def test_same_user_cannot_be_sender_and_receiver(self):
+        authorize_user(self, self.user1)
+        self.data['receiver'] = self.user1.id
+
+        r = self.client.post(self.url, data=self.data)
+        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(UserMessage.objects.all().count(), 0)
+
+    def test_cannot_send_message_to_non_existing_user(self):
+        authorize_user(self, self.user1)
+        self.data['receiver'] = 42000
+
+        r = self.client.post(self.url, data=self.data)
+        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(UserMessage.objects.all().count(), 0)
+
+    def test_cannot_send_message_with_incomplete_data(self):
+        authorize_user(self, self.user1)
+
+        for key in self.data:
+            data_copy = self.data.copy()
+            data_copy[key] = ''
+            r = self.client.post(self.url, data=data_copy)
+            self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
+            self.assertEqual(UserMessage.objects.all().count(), 0)

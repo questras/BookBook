@@ -25,4 +25,4 @@ class UserMessage(models.Model):
     )
 
     def __str__(self):
-        return f'{self.title} from {self.sender} to {self.receiver}'
+        return f'"{self.title}" from {self.sender} to {self.receiver}'
