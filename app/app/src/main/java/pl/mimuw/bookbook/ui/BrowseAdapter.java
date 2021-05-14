@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,50 +28,58 @@ import pl.mimuw.bookbook.db.main.Offer;
 
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
-public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder> {
+public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
     private Context context;
-    private ArrayList<Offer> offers;
     private ExecutorService threadPool;
+    public ArrayList<Offer> offers;
 
-    public BrowseAdapter(Context context, ArrayList<Offer> offers) {
+    public BrowseAdapter(Context context) {
         this.context = context;
-        this.offers = offers;
+        offers = new ArrayList<>();
         threadPool = newCachedThreadPool();
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.offer_view, parent, false);
-
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.offer_view, parent, false);
+            return new ItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading,
+                    parent, false);
+            return new LoadingViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.position = position;
-        holder.title.setText(offers.get(position).getTitle());
-        holder.author.setText(offers.get(position).getAuthor());
-        URL imageUrl = offers.get(position).getImageUrl();
-        if (imageUrl != null) {
-            threadPool.execute(new SetImage(holder.book, imageUrl, position));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ItemViewHolder) {
+            populateItems((ItemViewHolder) holder, position);
         }
     }
 
     @Override
     public int getItemCount() {
-        return Math.min(offers.size(), 200);
+        return offers.size() + 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return position == offers.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView author;
         private ImageView book;
         private int position = -1; // indicates no position assigned yet
 
-        public ViewHolder(@NonNull View view) {
+        public ItemViewHolder(@NonNull View view) {
             super(view);
             book = view.findViewById(R.id.book_image);
             author = view.findViewById(R.id.author);
@@ -84,6 +92,25 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
                     ((MainActivity) context).navigateWithData(R.id.view_offer, toSend);
                 }
             });
+        }
+    }
+
+    private static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+    }
+
+    private void populateItems(@NonNull ItemViewHolder holder, int position) {
+        holder.position = position;
+        holder.title.setText(offers.get(position).getTitle());
+        holder.author.setText(offers.get(position).getAuthor());
+        URL imageUrl = offers.get(position).getImageUrl();
+        if (imageUrl != null) {
+            threadPool.execute(new SetImage(holder.book, imageUrl, position));
         }
     }
 
