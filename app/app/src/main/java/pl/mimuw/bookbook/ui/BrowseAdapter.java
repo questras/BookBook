@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
 import pl.mimuw.bookbook.R;
+import pl.mimuw.bookbook.db.main.MainViewModel;
 import pl.mimuw.bookbook.db.main.Offer;
 
 import static java.util.concurrent.Executors.newCachedThreadPool;
@@ -47,11 +51,12 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.position = position;
         holder.title.setText(offers.get(position).getTitle());
         holder.author.setText(offers.get(position).getAuthor());
         URL imageUrl = offers.get(position).getImageUrl();
         if (imageUrl != null) {
-            threadPool.execute(new SetImage(holder.book, imageUrl));
+            threadPool.execute(new SetImage(holder.book, imageUrl, position));
         }
     }
 
@@ -64,6 +69,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
         private TextView title;
         private TextView author;
         private ImageView book;
+        private int position = -1; // indicates no position assigned yet
 
         public ViewHolder(@NonNull View view) {
             super(view);
@@ -72,7 +78,11 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
             title = view.findViewById(R.id.title);
 
             view.setOnClickListener(v -> {
-                Toast.makeText(context, "Hello!", Toast.LENGTH_SHORT).show();
+                if (position >= 0) {
+                    Bundle toSend = new Bundle();
+                    toSend.putInt("position", position);
+                    ((MainActivity) context).navigateWithData(R.id.view_offer, toSend);
+                }
             });
         }
     }
@@ -80,21 +90,24 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
     private class SetImage implements Runnable {
         private final ImageView toSet;
         private final URL imageUrl;
+        private final int position;
 
-        public SetImage(ImageView toSet, URL imageUrl) {
+        public SetImage(ImageView toSet, URL imageUrl, int position) {
             this.toSet = toSet;
             this.imageUrl = imageUrl;
+            this.position = position;
         }
 
         @Override
         public void run() {
             try {
                 Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+                new ViewModelProvider((MainActivity) context).get(MainViewModel.class).addOfferImage(image, position);
                 ((Activity) context).runOnUiThread(() -> {
                     toSet.setImageBitmap(Bitmap.createScaledBitmap(image, 500, 500, true));
                 });
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.d("Internet", "Cannot download image");
             }
         }
     }

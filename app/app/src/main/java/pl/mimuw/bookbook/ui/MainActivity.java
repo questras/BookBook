@@ -61,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         navController.navigate(action);
     }
 
+    //    Navigate to any fragment through action id, with given data
+    public void navigateWithData(int action, Bundle bundle) {
+        navController.navigate(action, bundle);
+    }
+
     //    Simple observer for toasting if successful and switching fragments
     class toastObserver implements Observer<JSONObject> {
         private final String onSuccessMsg;

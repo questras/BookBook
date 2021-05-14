@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_margin"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur deserunt dicta dolorum est eum facilis illo mollitia nobis perferendis temporibus? A amet aperiam atque blanditiis consectetur exercitationem labore minus odit quidem tempore? Aliquam animi atque blanditiis corporis debitis eos error esse eum excepturi explicabo ipsa, ipsum maxime mollitia neque nesciunt odio officia officiis placeat quae qui quibusdam quidem soluta totam ullam, voluptatem! Accusantium aliquid amet animi assumenda atque blanditiis debitis dolorem earum eligendi expedita facilis illo incidunt iure magnam modi natus necessitatibus non officia optio, perferendis porro quaerat quas, ratione, rem unde vel voluptate. Maiores, nam quasi! Assumenda nulla, obcaecati?"
+            android:text="@string/description"
             android:textSize="15sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

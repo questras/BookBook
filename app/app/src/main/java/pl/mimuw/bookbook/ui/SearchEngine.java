@@ -19,21 +19,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import pl.mimuw.bookbook.R;
 import pl.mimuw.bookbook.db.main.MainViewModel;
 import pl.mimuw.bookbook.db.main.Offer;
 
 public class SearchEngine extends Fragment {
-    private ArrayList<Offer> offers;
+
+    private MainViewModel model;
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_engine, container, false);
-        offers = new ArrayList<>();
         MutableLiveData<JSONArray> offersRaw = new MutableLiveData<>();
-        MainViewModel model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         offersRaw.observe(requireActivity(), this::handleNewOffers);
         model.downloadOffers(offersRaw);
 
@@ -44,7 +46,8 @@ public class SearchEngine extends Fragment {
         if (data == null) {
             return;
         }
-        offers.clear();
+
+        ArrayList<Offer> offers = new ArrayList<>();
         for (int i = 0; i < data.length(); i++) {
             try {
                 JSONObject offerJson = data.getJSONObject(i);
@@ -68,6 +71,8 @@ public class SearchEngine extends Fragment {
                 Log.d("JSON", "Error during data conversion");
             }
         }
+        model.setOffers(offers);
+        model.clearOffersImages();
 
         RecyclerView offerRv = requireActivity().findViewById(R.id.offerRv);
         offerRv.setNestedScrollingEnabled(false);

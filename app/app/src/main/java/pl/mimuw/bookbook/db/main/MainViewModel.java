@@ -1,5 +1,7 @@
 package pl.mimuw.bookbook.db.main;
 
+import android.graphics.Bitmap;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,12 +13,16 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainViewModel extends ViewModel {
 
     private MutableLiveData<JSONObject> addOfferResp;
     private MutableLiveData<JSONObject> signOutResp;
     private MutableLiveData<ResponseToken> token;
+    private ArrayList<Offer> offers;
+    private Map<Integer, Bitmap> offersImages;
     private MainRepository mainRepository;
 
     public void init(ResponseToken token) {
@@ -27,6 +33,8 @@ public class MainViewModel extends ViewModel {
         this.token = new MutableLiveData<>(token);
         addOfferResp = new MutableLiveData<>();
         signOutResp = new MutableLiveData<>();
+        offers = new ArrayList<>();
+        offersImages = new HashMap<>();
     }
 
     public LiveData<ResponseToken> getToken() {
@@ -39,6 +47,26 @@ public class MainViewModel extends ViewModel {
 
     public MutableLiveData<JSONObject> getSignOutResp() {
         return signOutResp;
+    }
+
+    public ArrayList<Offer> getOffers() {
+        return offers;
+    }
+
+    public Map<Integer, Bitmap> getOffersImages() {
+        return offersImages;
+    }
+
+    public void setOffers(ArrayList<Offer> offers) {
+        this.offers = offers;
+    }
+
+    public void clearOffersImages() {
+        this.offersImages.clear();
+    }
+
+    public void addOfferImage(Bitmap toAdd, int position) {
+        offersImages.put(position, toAdd);
     }
 
     public void downloadOffers(MutableLiveData<JSONArray> data) {

@@ -23,5 +23,18 @@
         android:id="@+id/searchEngine"
         android:name="pl.mimuw.bookbook.ui.SearchEngine"
         android:label="fragment_search_engine"
-        tools:layout="@layout/fragment_search_engine" />
+        tools:layout="@layout/fragment_search_engine" >
+        <argument
+            android:name="offer_pos"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/view_offer"
+            app:destination="@id/offerInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/offerInfo"
+        android:name="pl.mimuw.bookbook.ui.OfferInfo"
+        android:label="fragment_offer_info"
+        tools:layout="@layout/fragment_offer_info" />
 </navigation>
