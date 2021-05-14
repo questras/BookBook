@@ -32,9 +32,9 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    private Context context;
-    private ExecutorService threadPool;
     public ArrayList<Offer> offers;
+    private final Context context;
+    private final ExecutorService threadPool;
 
     public BrowseAdapter(Context context) {
         this.context = context;
@@ -73,10 +73,29 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return position == offers.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
+    private void populateItems(@NonNull ItemViewHolder holder, int position) {
+        holder.position = position;
+        holder.title.setText(offers.get(position).getTitle());
+        holder.author.setText(offers.get(position).getAuthor());
+        URL imageUrl = offers.get(position).getImageUrl();
+        if (imageUrl != null) {
+            threadPool.execute(new SetImage(holder.book, imageUrl, position));
+        }
+    }
+
+    private static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+    }
+
     private class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-        private TextView author;
-        private ImageView book;
+        private final TextView title;
+        private final TextView author;
+        private final ImageView book;
         private int position = -1; // indicates no position assigned yet
 
         public ItemViewHolder(@NonNull View view) {
@@ -92,25 +111,6 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ((MainActivity) context).navigateWithData(R.id.view_offer, toSend);
                 }
             });
-        }
-    }
-
-    private static class LoadingViewHolder extends RecyclerView.ViewHolder {
-        ProgressBar progressBar;
-
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.progressBar);
-        }
-    }
-
-    private void populateItems(@NonNull ItemViewHolder holder, int position) {
-        holder.position = position;
-        holder.title.setText(offers.get(position).getTitle());
-        holder.author.setText(offers.get(position).getAuthor());
-        URL imageUrl = offers.get(position).getImageUrl();
-        if (imageUrl != null) {
-            threadPool.execute(new SetImage(holder.book, imageUrl, position));
         }
     }
 

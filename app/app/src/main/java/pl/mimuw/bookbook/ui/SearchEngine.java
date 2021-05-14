@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import pl.mimuw.bookbook.R;
 import pl.mimuw.bookbook.db.main.MainViewModel;
@@ -32,7 +29,6 @@ public class SearchEngine extends Fragment {
 
     private MainViewModel model;
     private BrowseAdapter adapter;
-    private RecyclerView offerRv;
     private NestedScrollView outerScroll;
 
     @Override
@@ -41,7 +37,7 @@ public class SearchEngine extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_engine, container, false);
         outerScroll = view.findViewById(R.id.outer_scroll);
         initScrollListener();
-        offerRv = view.findViewById(R.id.offerRv);
+        RecyclerView offerRv = view.findViewById(R.id.offerRv);
         offerRv.setNestedScrollingEnabled(false);
         offerRv.setLayoutManager(new LinearLayoutManager(requireActivity()));
         adapter = new BrowseAdapter(requireActivity());
