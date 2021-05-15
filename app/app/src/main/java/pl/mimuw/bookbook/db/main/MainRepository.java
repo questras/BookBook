@@ -5,20 +5,19 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import pl.mimuw.bookbook.db.RetrofitGson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import pl.mimuw.bookbook.db.RetrofitGson;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,21 +84,28 @@ public class MainRepository {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    @NonNull Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        data.setValue(new JSONArray(response.body().string()));
-                    } catch (JSONException e) {
-                        Log.d("JSON", "Error during creation");
-                    } catch (IOException e) {
-                        Log.d("JSON", "Error during response conversion");
-                    }
-                } else {
-                    data.setValue(null);
-                }
+                genericOnResponseArray(response, data);
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.d("Response", "Failure");
+                data.setValue(null);
+            }
+        });
+    }
+
+    public void searchOffers(String token, MutableLiveData<JSONArray> data,
+                             Map<String, String> params) {
+        api.searchOffers(params, "Token " + token).enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                genericOnResponseArray(response, data);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("Response", "Failure");
                 data.setValue(null);
             }
@@ -120,6 +126,21 @@ public class MainRepository {
                 data.setValue(null);
             }
         });
+    }
+
+    private void genericOnResponseArray(@NonNull Response<ResponseBody> response,
+                                        MutableLiveData<JSONArray> data) {
+        if (response.isSuccessful()) {
+            try {
+                data.setValue(new JSONArray(response.body().string()));
+            } catch (JSONException e) {
+                Log.d("JSON", "Error during creation");
+            } catch (IOException e) {
+                Log.d("JSON", "Error during response conversion");
+            }
+        } else {
+            data.setValue(null);
+        }
     }
 
     /*Generic function for handling responses and converting to JSONObjects*/

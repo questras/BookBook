@@ -39,7 +39,7 @@
     <string name="add_description">Say something about your book ;)</string>
     <string name="description_ex">Example: A long time ago in a galaxy far, far away....</string>
     <string name="find_book">Find your new book!</string>
-    <string name="search">Search by: book title, book\'s author, offer\'s author</string>
+    <string name="search">Search</string>
     <string name="offer1">Offer 1</string>
     <string name="offer2">Offer 2</string>
     <string name="offer3">Offer 3</string>

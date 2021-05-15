@@ -15,11 +15,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import pl.mimuw.bookbook.R;
 import pl.mimuw.bookbook.db.main.MainViewModel;
@@ -29,7 +33,10 @@ public class SearchEngine extends Fragment {
 
     private MainViewModel model;
     private BrowseAdapter adapter;
+    private MutableLiveData<JSONArray> offersRaw;
     private NestedScrollView outerScroll;
+    private TextInputLayout author;
+    private TextInputLayout title;
 
     @Override
     public View onCreateView(
@@ -42,13 +49,30 @@ public class SearchEngine extends Fragment {
         offerRv.setLayoutManager(new LinearLayoutManager(requireActivity()));
         adapter = new BrowseAdapter(requireActivity());
         offerRv.setAdapter(adapter);
+        author = view.findViewById(R.id.author_text_input);
+        title = view.findViewById(R.id.title_text_input);
 
-        MutableLiveData<JSONArray> offersRaw = new MutableLiveData<>();
+        offersRaw = new MutableLiveData<>();
         model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         offersRaw.observe(requireActivity(), this::handleNewOffers);
         model.downloadOffers(offersRaw);
 
+        view.findViewById(R.id.search_offer_button).setOnClickListener(this::buttonSearchListener);
+
         return view;
+    }
+
+    private void buttonSearchListener(View view) {
+        String authorText;
+        String titleText;
+        Map<String, String> toSend = new HashMap<>();
+        if (!(authorText = author.getEditText().getText().toString()).isEmpty()) {
+            toSend.put("author", authorText);
+        }
+        if (!(titleText = title.getEditText().getText().toString()).isEmpty()) {
+            toSend.put("title", titleText);
+        }
+        model.searchOffers(offersRaw, toSend);
     }
 
     private void handleNewOffers(JSONArray data) {
@@ -58,6 +82,7 @@ public class SearchEngine extends Fragment {
         ArrayList<Offer> offers = parseOffersJson(data);
 
 //        First data set up
+        adapter.offers.clear();
         for (int i = 0; i < Math.min(10, offers.size() - adapter.offers.size()); i++) {
             adapter.offers.add(offers.get(adapter.offers.size()));
         }

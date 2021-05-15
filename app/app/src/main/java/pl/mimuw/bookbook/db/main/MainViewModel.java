@@ -73,6 +73,10 @@ public class MainViewModel extends ViewModel {
         mainRepository.downloadOffers(token.getValue().getToken(), data);
     }
 
+    public void searchOffers(MutableLiveData<JSONArray> data, Map<String, String> params) {
+        mainRepository.searchOffers(token.getValue().getToken(), data, params);
+    }
+
     public void addOffer(String title, String author, String description,
                          String state, String city, String lender_phone) {
         mainRepository.addOffer(title, author, description, state, city,
