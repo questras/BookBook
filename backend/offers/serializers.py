@@ -53,6 +53,9 @@ class OfferSerializer(serializers.ModelSerializer):
 
 
 class OfferSearchSerializer(serializers.ModelSerializer):
+    lender = CustomUserSerializer(
+        read_only=True
+    )
     images = OfferImageSerializer(
         source='offerimage_set',
         read_only=True,
@@ -61,6 +64,6 @@ class OfferSearchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ('id', 'title', 'author', 'state',
-                  'city', 'created', 'updated',
-                  'lender', 'images')
+        fields = ('id', 'title', 'author', 'description',
+                  'state', 'city', 'status', 'created', 'updated',
+                  'lender', 'lender_phone', 'images')
