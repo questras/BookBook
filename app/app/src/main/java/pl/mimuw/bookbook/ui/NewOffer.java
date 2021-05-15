@@ -57,9 +57,9 @@ public class NewOffer extends Fragment {
             public void onClick(View v) {
                 model.addOffer(((TextInputEditText) view.findViewById(R.id.book_title_edit_text)).getText().toString(),
                         ((TextInputEditText) view.findViewById(R.id.book_author_edit_text)).getText().toString(),
+                        ((TextInputEditText) view.findViewById(R.id.description_edit_text)).getText().toString(),
                         ((TextInputEditText) view.findViewById(R.id.state_edit_text)).getText().toString(),
                         ((TextInputEditText) view.findViewById(R.id.city_edit_text)).getText().toString(),
-                        ((TextInputEditText) view.findViewById(R.id.description_edit_text)).getText().toString(),
                         ((TextInputEditText) view.findViewById(R.id.phone_edit_text)).getText().toString());
             }
         });

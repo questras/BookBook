@@ -22,7 +22,7 @@
     <string name="dislike_button">dislike button</string>
     <string name="offer_name">Offer name</string>
     <string name="location">Location:\nPoland\nMazowieckie\nWarsaw\nUrocza 24/10 Street</string>
-    <string name="phone_number">Phone number:\n123456789</string>
+    <string name="phone_number">phone number:</string>
     <string name="description">Description:</string>
     <string name="description_text">A very good book.</string>
     <string name="profile_button">Book owner</string>
@@ -50,4 +50,13 @@
     <string name="author_hint">Author</string>
     <string name="book_image">book image</string>
     <string name="sign_out">Sign out</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="state">state:</string>
+    <string name="email">email:</string>
+    <string name="city">city:</string>
+    <string name="example_state">Mazowsze</string>
+    <string name="example_city">Warsawa</string>
+    <string name="example_phone_number">420420420</string>
+    <string name="example_email">moj_mail@gmail.com</string>
 </resources>

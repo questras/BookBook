@@ -7,8 +7,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import pl.mimuw.bookbook.db.RetrofitGson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,6 +78,32 @@ public class MainRepository {
                         data.setValue(null);
                     }
                 });
+    }
+
+    public void downloadOffers(String token, MutableLiveData<JSONArray> data) {
+        api.downloadOffers("Token " + token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        data.setValue(new JSONArray(response.body().string()));
+                    } catch (JSONException e) {
+                        Log.d("JSON", "Error during creation");
+                    } catch (IOException e) {
+                        Log.d("JSON", "Error during response conversion");
+                    }
+                } else {
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.d("Response", "Failure");
+                data.setValue(null);
+            }
+        });
     }
 
     public void signOut(String token, MutableLiveData<JSONObject> data) {

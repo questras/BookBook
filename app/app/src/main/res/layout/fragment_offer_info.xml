@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_sign"
     tools:context="pl.mimuw.bookbook.ui.OfferInfo">
 
     <LinearLayout
@@ -12,72 +11,146 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp"
         android:paddingTop="16dp">
 
         <ImageView
+            android:id="@+id/book_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/logo"
+            android:layout_margin="@dimen/small_margin"
+            android:contentDescription="@string/book_image"
             app:srcCompat="@drawable/book" />
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20sp"
-            android:text="@string/offer_name"
-            android:textColor="@color/black"
+            android:layout_margin="@dimen/small_margin"
+            android:fontFamily="@font/alex_brush"
+            android:text="@string/title"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginBottom="10sp"
-            android:text="@string/location"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:layout_margin="@dimen/small_margin"
+            android:fontFamily="@font/alex_brush"
+            android:text="@string/author"
+            android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginBottom="10sp"
-            android:text="@string/phone_number"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/small_margin"
+            android:fontFamily="@font/alex_brush"
             android:text="@string/description"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/description_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20sp"
-            android:text="@string/description_text"
-            android:textColor="@color/black"
+            android:layout_margin="@dimen/small_margin"
+            android:text="@string/description"
             android:textSize="15sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/reg_margin">
+
+            <TextView
+                android:id="@+id/state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/state"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/city"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state" />
+
+            <TextView
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/phone_number"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/email"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+
+            <TextView
+                android:id="@+id/state_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_state"
+                app:layout_constraintBaseline_toBaselineOf="@+id/state"
+                app:layout_constraintEnd_toEndOf="@+id/city_text"
+                app:layout_constraintStart_toStartOf="@+id/city_text" />
+
+            <TextView
+                android:id="@+id/city_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_city"
+                app:layout_constraintBaseline_toBaselineOf="@+id/city"
+                app:layout_constraintEnd_toEndOf="@+id/phone_number_text"
+                app:layout_constraintStart_toStartOf="@+id/phone_number_text" />
+
+            <TextView
+                android:id="@+id/phone_number_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_phone_number"
+                app:layout_constraintBaseline_toBaselineOf="@+id/phone_number"
+                app:layout_constraintEnd_toEndOf="@+id/email_text"
+                app:layout_constraintStart_toStartOf="@+id/email_text" />
+
+            <TextView
+                android:id="@+id/email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_email"
+                app:layout_constraintBaseline_toBaselineOf="@+id/email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toEndOf="@+id/email" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_photo_button"
             style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_margin="@dimen/small_margin"
             android:text="@string/profile_button"
-            app:iconGravity="start"
-            app:iconTint="@color/primary_dark" />
+            app:iconGravity="start" />
 
     </LinearLayout>
 
