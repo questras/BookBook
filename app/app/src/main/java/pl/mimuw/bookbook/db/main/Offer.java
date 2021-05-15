@@ -1,9 +1,5 @@
 package pl.mimuw.bookbook.db.main;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 

@@ -83,7 +83,7 @@ public class SearchEngine extends Fragment {
 
 //        First data set up
         adapter.offers.clear();
-        for (int i = 0; i < Math.min(10, offers.size() - adapter.offers.size()); i++) {
+        for (int i = 0; i < Math.min(10, offers.size()); i++) {
             adapter.offers.add(offers.get(adapter.offers.size()));
         }
         adapter.notifyDataSetChanged();

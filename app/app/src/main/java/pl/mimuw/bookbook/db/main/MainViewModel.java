@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import pl.mimuw.bookbook.db.ResponseToken;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import pl.mimuw.bookbook.db.ResponseToken;
 
 public class MainViewModel extends ViewModel {
 
@@ -53,12 +53,12 @@ public class MainViewModel extends ViewModel {
         return offers;
     }
 
-    public Map<Integer, Bitmap> getOffersImages() {
-        return offersImages;
-    }
-
     public void setOffers(ArrayList<Offer> offers) {
         this.offers = offers;
+    }
+
+    public Map<Integer, Bitmap> getOffersImages() {
+        return offersImages;
     }
 
     public void clearOffersImages() {

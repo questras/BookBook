@@ -19,21 +19,21 @@ import retrofit2.http.QueryMap;
 public interface MainService {
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
-    @POST("api/offers")
+    @POST("api/offers/")
     Call<ResponseBody> addOffer(@Body RequestAddOffer request, @Header("Authorization") String token);
 
     @Multipart
-    @POST("api/offer_images")
+    @POST("api/offer_images/")
     Call<ResponseBody> addImage(@Header("Authorization") String token,
                                 @Part MultipartBody.Part imagePart,
                                 @Part MultipartBody.Part offerPart);
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
-    @POST("api/auth/revoke_token")
+    @POST("api/auth/revoke_token/")
     Call<ResponseBody> revokeToken(@Body RequestRevokeToken request);
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
-    @GET("/api/offers")
+    @GET("/api/offers/")
     Call<ResponseBody> downloadOffers(@Header("Authorization") String token);
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
