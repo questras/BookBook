@@ -29,8 +29,12 @@ public interface MainService {
                                 @Part MultipartBody.Part offerPart);
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
-    @POST("api/auth/revoke_token/")
+    @POST("api/auth/revoke_token")
     Call<ResponseBody> revokeToken(@Body RequestRevokeToken request);
+
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
+    @GET("/api/auth/my_profile/")
+    Call<ResponseBody> getUserInfo(@Header("Authorization") String token);
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
     @GET("/api/offers/")
