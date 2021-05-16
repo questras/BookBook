@@ -112,6 +112,22 @@ public class MainRepository {
         });
     }
 
+    public void getUserInfo(String token, MutableLiveData<JSONObject> data) {
+        api.getUserInfo("Token " + token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                genericOnResponse(response, data);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.d("Response", "Failure");
+                data.setValue(null);
+            }
+        });
+    }
+
     public void signOut(String token, MutableLiveData<JSONObject> data) {
         api.revokeToken(new RequestRevokeToken(token)).enqueue(new Callback<ResponseBody>() {
             @Override

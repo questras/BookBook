@@ -87,6 +87,9 @@ public class MainViewModel extends ViewModel {
         mainRepository.addImage(id, imageFile, token.getValue().getToken(), data);
     }
 
+    public void getUserInfo(MutableLiveData<JSONObject> data) {
+        mainRepository.getUserInfo(token.getValue().getToken(), data);
+    }
 
     public void signOut() {
         mainRepository.signOut(token.getValue().getToken(), signOutResp);
