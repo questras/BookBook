@@ -10,3 +10,7 @@ This module provides REST API endpoints and logic for user-related functionaliti
 - `/api/auth/profile/<id>/` (where \<id\> is id of a user)
     - GET method
     - Needs authentication
+- `/api/auth/my_profile/`
+    - Current user's profile
+    - GET method
+    - Needs authentication

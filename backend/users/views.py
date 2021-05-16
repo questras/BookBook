@@ -3,6 +3,7 @@ from rest_framework.generics import (
     RetrieveAPIView,
     CreateAPIView
 )
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -59,6 +60,18 @@ class UserProfileView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CustomUserSerializer
     model = User
+
+
+class MyProfileView(APIView):
+    """View to get current user's profile data."""
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = CustomUserSerializer
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.serializer_class(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class RegistrationView(CreateAPIView):
