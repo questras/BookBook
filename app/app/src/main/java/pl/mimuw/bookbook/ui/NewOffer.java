@@ -18,9 +18,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import pl.mimuw.bookbook.R;
-
-import pl.mimuw.bookbook.db.main.MainViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,6 +32,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+
+import pl.mimuw.bookbook.R;
+import pl.mimuw.bookbook.db.main.MainViewModel;
 
 public class NewOffer extends Fragment {
 

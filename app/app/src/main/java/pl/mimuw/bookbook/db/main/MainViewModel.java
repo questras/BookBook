@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import pl.mimuw.bookbook.db.ResponseToken;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import pl.mimuw.bookbook.db.ResponseToken;
 
 public class MainViewModel extends ViewModel {
 
@@ -53,12 +53,12 @@ public class MainViewModel extends ViewModel {
         return offers;
     }
 
-    public Map<Integer, Bitmap> getOffersImages() {
-        return offersImages;
-    }
-
     public void setOffers(ArrayList<Offer> offers) {
         this.offers = offers;
+    }
+
+    public Map<Integer, Bitmap> getOffersImages() {
+        return offersImages;
     }
 
     public void clearOffersImages() {
@@ -71,6 +71,10 @@ public class MainViewModel extends ViewModel {
 
     public void downloadOffers(MutableLiveData<JSONArray> data) {
         mainRepository.downloadOffers(token.getValue().getToken(), data);
+    }
+
+    public void searchOffers(MutableLiveData<JSONArray> data, Map<String, String> params) {
+        mainRepository.searchOffers(token.getValue().getToken(), data, params);
     }
 
     public void addOffer(String title, String author, String description,

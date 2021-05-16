@@ -32,9 +32,9 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    public ArrayList<Offer> offers;
     private final Context context;
     private final ExecutorService threadPool;
+    public ArrayList<Offer> offers;
 
     public BrowseAdapter(Context context) {
         this.context = context;
