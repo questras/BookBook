@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'offers.apps.OffersConfig',
     'token_auth.apps.TokenAuthConfig',
+    'requests.apps.RequestsConfig',
     'user_messages.apps.UserMessagesConfig',
 ]
 
