@@ -36,7 +36,7 @@ class Offer(models.Model):
     lender_phone = models.CharField(max_length=13, help_text='Lender\'s contact information')
 
     def __str__(self) -> str:
-        return f'{self.id}. ({self.title}, {self.author}) by {self.lender.get_full_name()}'
+        return f'{self.id}. ({self.title}, {self.author}) by {self.lender.email}'
 
 
 class OfferImage(models.Model):

@@ -23,7 +23,7 @@ api_urls = [
     path('auth/', include('users.urls')),
     path('rf/', include('rest_framework.urls')),
     path('', include('offers.urls')),
-    path('', include('requests.urls')),
+    path('', include('offer_requests.urls')),
     path('', include('user_messages.urls')),
 ]
 

@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     # local
     'users.apps.UsersConfig',
     'offers.apps.OffersConfig',
+    'offer_requests.apps.OfferRequestsConfig',
     'token_auth.apps.TokenAuthConfig',
-    'requests.apps.RequestsConfig',
     'user_messages.apps.UserMessagesConfig',
 ]
 
